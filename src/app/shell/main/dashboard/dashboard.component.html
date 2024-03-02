@@ -1,1 +1,15 @@
-<p>dashboard works!</p>
+<mat-grid-list [cols]="cols$ | async" rowHeight="150px">
+  @for (asset of assets; track asset) {
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ asset.symbol_name }}</mat-card-title>
+        <mat-card-subtitle>{{ asset.price }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end">
+        <button mat-button>REMOVE</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  }
+</mat-grid-list>

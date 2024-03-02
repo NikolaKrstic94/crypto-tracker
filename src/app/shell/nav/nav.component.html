@@ -1,1 +1,12 @@
-<p>nav works!</p>
+<mat-toolbar color="primary" class="custom-spacer">
+  <span>Crypto Tracker</span>
+  <div>
+    <span><mat-icon>currency_exchange</mat-icon></span>
+    <button mat-button [matMenuTriggerFor]="menu">EUR</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>EUR</button>
+      <button mat-menu-item>USD</button>
+      <button mat-menu-item>AED</button>
+    </mat-menu>
+  </div>
+</mat-toolbar>
