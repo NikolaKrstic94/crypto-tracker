@@ -9,9 +9,18 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { InlineResponse2006Data } from './inlineResponse2006Data';
 
-export interface InlineResponse2006 { 
-    data?: Array<InlineResponse2006Data>;
-    timestamp?: number;
+export interface InlineResponse2008Data { 
+    baseId?: string;
+    baseSymbol?: string;
+    exchangeId?: string;
+    percentExchangeVolume?: string;
+    priceQuote?: string;
+    priceUsd?: string;
+    quoteId?: string;
+    quoteSymbol?: string;
+    rank?: string;
+    tradesCount24Hr?: string;
+    updated?: number;
+    volumeUsd24Hr?: string;
 }

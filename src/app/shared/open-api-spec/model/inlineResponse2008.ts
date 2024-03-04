@@ -9,8 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { InlineResponse2008Data } from './inlineResponse2008Data';
 
 export interface InlineResponse2008 { 
-    data?: Array<any>;
+    data?: Array<InlineResponse2008Data>;
     timestamp?: number;
 }
