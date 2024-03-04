@@ -22,5 +22,14 @@ $custom-theme: mat.define-light-theme(
   )
 );
 
+:root {
+  --primary-color: #{mat.get-color-from-palette($custom-primary, 500)};
+  --primary-color-light: #{mat.get-color-from-palette($custom-primary, 300)};
+  --primary-color-dark: #{mat.get-color-from-palette($custom-primary, 800)};
+  --accent-color: #{mat.get-color-from-palette($custom-accent, A200)};
+  --accent-color-light: #{mat.get-color-from-palette($custom-accent, A100)};
+  --accent-color-dark: #{mat.get-color-from-palette($custom-accent, A400)};
+}
 @include mat.core();
 @include mat.all-component-themes($custom-theme);
+
