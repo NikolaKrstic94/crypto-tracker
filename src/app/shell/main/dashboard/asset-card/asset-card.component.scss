@@ -1,3 +1,26 @@
 :host {
-  width: 70%;
+  width: 95%;
 }
+.crypto-icon-img {
+  width: 40px;
+  height: 40px;
+}
+
+.card-upper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.card-lower {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+mat-card-header {
+  padding-top: 0;
+}
+

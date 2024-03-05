@@ -15,7 +15,7 @@ import { AssetCardComponent } from './asset-card/asset-card.component';
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   breakpointObserver = inject(BreakpointObserver);
   assetsManagerService = inject(AssetsManagementService);
   // TODO get a dynamic currency based on selected currency later
@@ -25,6 +25,4 @@ export class DashboardComponent implements OnInit {
   cols$ = this.breakpointObserver
     .observe([Breakpoints.HandsetPortrait])
     .pipe(map((result) => (result.matches ? 1 : 4)));
-
-  ngOnInit() {}
 }
