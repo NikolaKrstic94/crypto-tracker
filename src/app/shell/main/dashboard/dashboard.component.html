@@ -1,17 +1,7 @@
 <mat-grid-list [cols]="cols$ | async" rowHeight="150px">
-  @if(assets$ | async; as assets) {
-    @for (asset of assets.data; track asset) {
-    <mat-grid-tile>
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ asset.name}}</mat-card-title>
-          <mat-card-subtitle>{{ asset.priceUsd }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions align="end">
-          <button mat-button>REMOVE</button>
-        </mat-card-actions>
-      </mat-card>
-    </mat-grid-tile>
-    }
-  }
+  @if(assets$ | async; as assets) { @for (asset of assets.data; track asset) {
+  <mat-grid-tile>
+    <app-asset-card [assetData]="asset" [currencyId]="currencyId"></app-asset-card>
+  </mat-grid-tile>
+  } }
 </mat-grid-list>

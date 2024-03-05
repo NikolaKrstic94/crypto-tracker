@@ -1,0 +1,9 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ assetData.name }}</mat-card-title>
+    <mat-card-subtitle>{{ assetData.priceUsd | currency: currencyId : 'symbol' : '1.2-2' }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions align="end">
+    <button mat-button>REMOVE</button>
+  </mat-card-actions>
+</mat-card>
