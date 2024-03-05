@@ -30,7 +30,7 @@ import { InlineResponse2003 } from '../model/inlineResponse2003';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { AssetsManagerOptions } from '../../types/assets-manager-options';
+import { AssetsServiceOptions } from '../../types/assets-service-options';
 
 
 
@@ -104,10 +104,10 @@ export class AssetsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public assets( options: AssetsManagerOptions, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse200>;
-    public assets( options: AssetsManagerOptions, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse200>>;
-    public assets( options: AssetsManagerOptions, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse200>>;
-    public assets( options: AssetsManagerOptions, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+    public assets( options?: AssetsServiceOptions, observe?: 'body', reportProgress?: boolean): Observable<InlineResponse200>;
+    public assets( options?: AssetsServiceOptions, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<InlineResponse200>>;
+    public assets( options?: AssetsServiceOptions, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<InlineResponse200>>;
+    public assets( options?: AssetsServiceOptions, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 

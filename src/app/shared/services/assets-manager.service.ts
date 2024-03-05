@@ -10,15 +10,19 @@ export class AssetsManagerService {
   assetsService = inject(AssetsService);
   constructor() {}
 
-  getAssets() {
-    this.assetsService.assets({search:'tether'} ).subscribe((response) => {
-      console.log(response);
-    });
+  getFirstHundredAssets() {
+    return this.assetsService.assets();
   }
 
+  getAssetsBySearchString(search: string) {
+    return this.assetsService.assets({search} )
+  }
 
-  // Observable<InlineResponse2001>
+  getAssetsByIds(ids:string[]) {
+    return this.assetsService.assets({ids} );
+  }
+
   getAssetById(id: string)  {
-    this.assetsService.assetsId(id).subscribe((response) => console.log(response));
+    return this.assetsService.assetsId(id);
   }
 }

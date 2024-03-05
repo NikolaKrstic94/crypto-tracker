@@ -1,6 +1,6 @@
 import { HttpContext } from '@angular/common/http';
 
-export interface AssetsManagerOptions {
+export interface AssetsServiceOptions {
   search?: string;
   ids?: string[];
   limit?: number;
