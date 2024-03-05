@@ -1,7 +1,5 @@
-<mat-grid-list [cols]="cols$ | async" rowHeight="140px" gutterSize="20px">
-  @if(assets$ | async; as assets) { @for (asset of assets.data; track asset) {
-  <mat-grid-tile>
-    <app-asset-card [assetData]="asset" [currencyId]="currencyId"></app-asset-card>
-  </mat-grid-tile>
-  } }
-</mat-grid-list>
+<div class="button-container">
+  <button mat-raised-button class="add-symbol-button" color="primary">Add a symbol</button>
+</div>
+
+<app-asset-grid-container></app-asset-grid-container>

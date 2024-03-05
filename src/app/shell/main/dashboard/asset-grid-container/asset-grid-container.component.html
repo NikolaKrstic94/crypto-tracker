@@ -1,0 +1,3 @@
+@if (assets$ | async; as assets) {
+  <app-asset-grid-representation [assets]="assets" [cols]="cols$ | async" [currencyId]="currencyId"></app-asset-grid-representation>
+}

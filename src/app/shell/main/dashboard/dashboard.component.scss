@@ -1,5 +1,13 @@
-mat-grid-list {
-  width: 70%;
-  margin: 0 auto;
+.button-container {
+  width: 69%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  padding: 0 0;
 }
 
+.add-symbol-button {
+  display: block;
+
+}
