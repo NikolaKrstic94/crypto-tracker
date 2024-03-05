@@ -9,11 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { InlineResponse2001Data } from './inlineResponse2001Data';
 
 
-export interface InlineResponse2001 { 
-    data?: InlineResponse2001Data;
-    timestamp?: number;
+export interface InlineResponse2002DataInner { 
+    priceUsd?: string;
+    time?: number;
 }
 

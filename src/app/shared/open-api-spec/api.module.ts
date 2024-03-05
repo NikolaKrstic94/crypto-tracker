@@ -3,24 +3,11 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
-import { AssetsService } from './api/assets.service';
-import { CandlesService } from './api/candles.service';
-import { ExchangesService } from './api/exchanges.service';
-import { MarketsService } from './api/markets.service';
-import { RESTfulAPIDocumentationService } from './api/rESTfulAPIDocumentation.service';
-import { RatesService } from './api/rates.service';
-
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [
-    AssetsService,
-    CandlesService,
-    ExchangesService,
-    MarketsService,
-    RESTfulAPIDocumentationService,
-    RatesService ]
+  providers: []
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {
