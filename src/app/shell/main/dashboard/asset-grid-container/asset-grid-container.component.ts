@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
-import { AssetsManagementService } from '../../../../shared/services/assets-managemenet-service/assets-management.service';
+import { AssetsManagementService } from '../../../../shared/services/assets-management-service/assets-management.service';
 import { map } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';

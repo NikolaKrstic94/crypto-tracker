@@ -1,3 +1,14 @@
+app-asset-grid-container {
+  width: 80%;
+  align-self: center;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
 .button-container {
   width: 69%;
   margin: 30px auto;
@@ -10,4 +21,8 @@
 .add-symbol-button {
   display: block;
 
+}
+
+.profile-section {
+  width: 20%;
 }

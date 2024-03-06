@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { InlineResponse200DataInner } from '../../../../shared/open-api-spec/model/inlineResponse200DataInner';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { AssetsManagementService } from '../../../../shared/services/assets-managemenet-service/assets-management.service';
-import { AssetDisplayMode } from '../../../../shared/types/asset-display-mode';
+import { InlineResponse200DataInner } from '../../../../../../shared/open-api-spec/model/inlineResponse200DataInner';
+import { AssetsManagementService } from '../../../../../../shared/services/assets-management-service/assets-management.service';
+import { AssetDisplayMode } from '../../../../../../shared/types/asset-display-mode';
+import { UserAndAssetStateService } from '../../../../../../shared/services/user-and-asset-state.service';
 
 @Component({
   selector: 'app-asset-card',
@@ -18,6 +19,8 @@ export class AssetCardComponent implements OnInit {
   @Input() currencyId!: string;
 
   assetManagementService = inject(AssetsManagementService);
+  userAndAssetStateService = inject(UserAndAssetStateService);
+
   pathToIcon!: string;
   iconNameToLowerCase!: string;
   altName!: string;
@@ -38,10 +41,14 @@ export class AssetCardComponent implements OnInit {
   }
 
   removeAsset() {
-    this.assetManagementService.removeAsset();
+    this.userAndAssetStateService.removeAsset();
   }
 
-  addAsset() {
-    this.assetManagementService.addAsset();
+  addAsset(assetId: string | undefined) {
+    if (!assetId) {
+      console.error("There's no assed ID to add");
+      return;
+    }
+    this.userAndAssetStateService.addAsset(assetId);
   }
 }

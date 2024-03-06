@@ -32,12 +32,4 @@ export class AssetsManagementService {
   setAssetDisplayMode(displayMode: AssetDisplayMode) {
     this.assetDisplayMode = displayMode;
   }
-
-  addAsset() {
-    // TODO
-  }
-  removeAsset() {
-    // TODO
-  }
-
 }

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { AssetCardComponent } from '../../asset-card/asset-card.component';
 import { InlineResponse200 } from '../../../../../shared/open-api-spec/model/inlineResponse200';
+import { AssetCardComponent } from './asset-card/asset-card.component';
 
 @Component({
   selector: 'app-asset-grid-representation',

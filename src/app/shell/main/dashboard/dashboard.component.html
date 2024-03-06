@@ -1,5 +1,12 @@
-<div class="button-container">
-  <button mat-raised-button class="add-symbol-button" color="primary" (click)="openAssetDialog()">Add Asset</button>
+<div class="dashboard-container">
+  <app-asset-grid-container></app-asset-grid-container>
+  <div class="profile-section">
+    <div class="button-container">
+      <button mat-raised-button class="add-symbol-button" color="primary" (click)="openAssetDialog()">Add Asset</button>
+    </div>
+    <app-profile-list></app-profile-list>
+  </div>
+
+
 </div>
 
-<app-asset-grid-container></app-asset-grid-container>

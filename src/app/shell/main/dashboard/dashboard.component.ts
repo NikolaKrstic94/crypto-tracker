@@ -4,10 +4,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { AssetDisplayMode } from '../../../shared/types/asset-display-mode';
+import { ProfileListComponent } from './profile-list/profile-list.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [AssetGridContainerComponent, MatToolbarModule, MatButtonModule],
+  imports: [AssetGridContainerComponent, MatToolbarModule, MatButtonModule, ProfileListComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
