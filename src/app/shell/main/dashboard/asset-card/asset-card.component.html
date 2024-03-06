@@ -7,6 +7,10 @@
       </mat-card-header>
     </div>
     <mat-card-actions class="card-lower">
-      <button mat-button>REMOVE</button>
+      @if (assetDisplayModeValue === assetDisplayModeEnum.Available) {
+        <button mat-button (click)="removeAsset()">Add</button>
+      } @else if(assetDisplayModeValue === assetDisplayModeEnum.Added) {
+        <button mat-button (click)="addAsset()">Remove</button>
+      }
     </mat-card-actions>
 </mat-card>

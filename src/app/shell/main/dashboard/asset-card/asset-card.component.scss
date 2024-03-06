@@ -10,8 +10,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 20px;
-  padding-top: 20px;
+  padding-left: 8px;
+  padding-top: 8px;
 }
 
 .card-lower {
@@ -21,6 +21,6 @@
 }
 
 mat-card-header {
-  padding-top: 0;
+  padding: 0 8px;
 }
 

@@ -1,19 +1,26 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AssetsManagementService } from '../../../../shared/services/assets-management.service';
+import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
+import { AssetsManagementService } from '../../../../shared/services/assets-managemenet-service/assets-management.service';
 import { map } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
+import { AssetDisplayMode } from '../../../../shared/types/asset-display-mode';
 
 @Component({
   selector: 'app-asset-grid-container',
   standalone: true,
-  imports: [AssetGridRepresentationComponent, CommonModule],
+  imports: [AssetGridRepresentationComponent, CommonModule, MatDialogContent],
   templateUrl: './asset-grid-container.component.html',
   styleUrl: './asset-grid-container.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetGridContainerComponent {
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) {
+    if (dialogData) {
+      this.assetsManagerService.setAssetDisplayMode(AssetDisplayMode.Available);
+    }
+  }
   breakpointObserver = inject(BreakpointObserver);
   assetsManagerService = inject(AssetsManagementService);
   currencyId = 'USD';
@@ -35,6 +42,4 @@ export class AssetGridContainerComponent {
     );
 
   assets$ = this.assetsManagerService.getAssetsByNumberOfAssets(16);
-
-  constructor() {}
 }
