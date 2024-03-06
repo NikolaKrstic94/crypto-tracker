@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { AssetUserProfile } from '../../../../shared/types/asset-user-profile';
-import { UserAndAssetStateService } from '../../../../shared/services/user-and-asset-state.service';
+import { ProfilesAndAssetsStateService } from '../../../../shared/services/profiles-and-assets-state.service';
 
 @Component({
   selector: 'app-profile-list',
@@ -11,10 +10,8 @@ import { UserAndAssetStateService } from '../../../../shared/services/user-and-a
   styleUrl: './profile-list.component.scss',
 })
 export class ProfileListComponent {
-  userIds!: string[];
-  userAndAssetStateService = inject(UserAndAssetStateService);
+  profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
 
-  localStorageGetAllUserKeys() {
-    this.userIds = this.userAndAssetStateService.localStorageGetAllUserKeys();
-  }
+  profileIds = this.profilesAndAssetsStateService.localStorageGetAllProfileKeys();
+
 }

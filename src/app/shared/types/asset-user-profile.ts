@@ -1,4 +1,4 @@
 export interface AssetUserProfile {
-  userId: string;
+  profileId: string;
   assetIds: string[];
 }

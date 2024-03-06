@@ -5,19 +5,19 @@ import { AssetUserProfile } from '../types/asset-user-profile';
 @Injectable({
   providedIn: 'root',
 })
-export class UserAndAssetStateService {
+export class ProfilesAndAssetsStateService {
   private defaultProfile: AssetUserProfile = {
-    userId: 'defaultUser',
+    profileId: 'defaultProfile',
     assetIds: ['bitcoin', 'ethereum'],
   };
 
   private initialProfile: AssetUserProfile = JSON.parse(
-    localStorage.getItem('user1') || JSON.stringify(this.defaultProfile)
+    localStorage.getItem('profile1') || JSON.stringify(this.defaultProfile)
   );
 
   localStorageDataSubject = new BehaviorSubject<AssetUserProfile>(this.initialProfile);
 
-  numOfUsers!: number;
+  numOfProfiles!: number;
 
   constructor() {}
 
@@ -30,11 +30,11 @@ export class UserAndAssetStateService {
         assetIds: [...currentProfile.assetIds, assetId],
       };
 
-      this.updateLocalStorageByUserId('user1', updatedProfile);
+      this.updateLocalStorageByProfileId('profile1', updatedProfile);
     }
   }
 
-  private updateLocalStorageByUserId(key: string, data: AssetUserProfile) {
+  private updateLocalStorageByProfileId(key: string, data: AssetUserProfile) {
     localStorage.setItem(key, JSON.stringify(data));
     this.localStorageDataSubject.next(data);
   }
@@ -42,13 +42,13 @@ export class UserAndAssetStateService {
     // TODO
   }
 
-  localStorageGetAllUserKeys() {
-    this.numOfUsers = localStorage.length;
-    const usersKeys: string[] = [];
+  localStorageGetAllProfileKeys() {
+    this.numOfProfiles = localStorage.length;
+    const profilesKeys: string[] = [];
 
-    for (let i = 0; i < this.numOfUsers; i++) {
-      usersKeys.push(localStorage.key(i) as string);
+    for (let i = 0; i < this.numOfProfiles; i++) {
+      profilesKeys.push(localStorage.key(i) as string);
     }
-   return usersKeys;
+   return profilesKeys;
   }
 }

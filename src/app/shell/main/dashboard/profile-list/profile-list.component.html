@@ -1,9 +1,6 @@
-<mat-selection-list #userIdsList [multiple]="false">
-  @for (userId of userIds; track userId) {
-    <mat-list-option [value]="userId">{{userId}}</mat-list-option>
+<h3>Profiles:</h3>
+<mat-selection-list #profileIdsList [multiple]="false" color="primary">
+  @for (profileId of profileIds; track profileId) {
+    <mat-list-option [value]="profileId">{{profileId}}</mat-list-option>
   }
 </mat-selection-list>
-
-<p>
-  Option selected: {{userIdsList.selectedOptions.hasValue() ? userIdsList.selectedOptions.selected[0].value : 'None'}}
-</p>
