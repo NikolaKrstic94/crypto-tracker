@@ -1,6 +1,6 @@
 <h3>Profiles:</h3>
 <mat-selection-list #profileIdsList [multiple]="false" color="primary">
-  @for (profileId of profileIds; track profileId) {
-    <mat-list-option [value]="profileId">{{profileId}}</mat-list-option>
-  }
+  @if (profiles$ | async; as profiles) { @for (profile of profiles; track profile) {
+  <mat-list-option [value]="profile.profileId">{{ profile.profileId }}</mat-list-option>
+  } }
 </mat-selection-list>
