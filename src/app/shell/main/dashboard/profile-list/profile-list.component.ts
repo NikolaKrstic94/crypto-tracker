@@ -16,7 +16,6 @@ export class ProfileListComponent implements OnInit {
   profiles$ = this.profilesAndAssetsStateService.allProfiles$;
 
   ngOnInit() {
-    this.profilesAndAssetsStateService.initializeLocalStorage();
   }
 
 }

@@ -26,7 +26,6 @@ export class AssetCardComponent implements OnInit {
   altName!: string;
 
   assetDisplayModeEnum = AssetDisplayMode;
-  assetDisplayModeValue = this.assetManagementService.assetDisplayMode;
 
   ngOnInit() {
     this.setIconPath();

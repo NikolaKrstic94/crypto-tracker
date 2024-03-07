@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { AssetUserProfile } from '../types/asset-user-profile';
 import { ProfileListComponent } from '../../shell/main/dashboard/profile-list/profile-list.component';
 
@@ -14,10 +14,7 @@ export class ProfilesAndAssetsStateService {
     isDefault: true,
   };
 
-
-  allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>([
-    this.defaultProfile,
-  ]);
+  allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>(this.getAllProfiles());
   allProfiles$ = this.allProfilesSubject.asObservable();
 
   numOfProfiles!: number;
@@ -28,6 +25,13 @@ export class ProfilesAndAssetsStateService {
     let allProfiles: AssetUserProfile[] = this.getAllProfiles();
 
     return allProfiles.find((profile) => profile.isCurrent);
+  }
+
+  getCurrentProfile$(): Observable<AssetUserProfile> {
+    return this.allProfiles$.pipe(
+      map((profiles) => profiles.find((profile) => profile.isCurrent)),
+      filter((profile) => profile !== undefined)
+    ) as Observable<AssetUserProfile>;
   }
 
   private getAllProfiles() {
@@ -71,22 +75,22 @@ export class ProfilesAndAssetsStateService {
 
   private updateLocalStorageDataAndSubject(profiles: AssetUserProfile[]) {
     localStorage.setItem('profiles', JSON.stringify(profiles));
-
-    this.allProfilesSubject.next(profiles);
+    if(this.allProfilesSubject) {
+      this.allProfilesSubject.next(profiles);
+    }
   }
   removeAsset() {
     // TODO
   }
 
   localStorageGetAllProfileIds() {
-    return this.getAllProfiles().map(profile => profile.profileId)
+    return this.getAllProfiles().map((profile) => profile.profileId);
   }
 
   initializeLocalStorage() {
-    let starterData: AssetUserProfile[] = [this.defaultProfile];
-
-    if(!localStorage.getItem('profiles')) {
-      this.updateLocalStorageDataAndSubject(starterData)
+    if (!localStorage.getItem('profiles')) {
+      let starterData: AssetUserProfile[] = [this.defaultProfile];
+      this.updateLocalStorageDataAndSubject(starterData);
     }
   }
 }

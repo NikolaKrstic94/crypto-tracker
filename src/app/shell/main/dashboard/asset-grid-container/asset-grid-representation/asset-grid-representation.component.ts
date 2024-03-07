@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { InlineResponse200 } from '../../../../../shared/open-api-spec/model/inlineResponse200';
 import { AssetCardComponent } from './asset-card/asset-card.component';
+import { Observable } from 'rxjs';
+import { InlineResponse200DataInner } from '../../../../../shared/open-api-spec/model/inlineResponse200DataInner';
 
 @Component({
   selector: 'app-asset-grid-representation',
@@ -14,7 +15,7 @@ import { AssetCardComponent } from './asset-card/asset-card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssetGridRepresentationComponent {
-  @Input() assets!: InlineResponse200;
+  @Input() assets!: InlineResponse200DataInner[] | undefined;
   @Input() cols: number | null = 4;
   @Input() currencyId: string = '';
 }

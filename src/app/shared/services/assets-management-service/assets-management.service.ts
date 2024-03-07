@@ -1,6 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AssetsService } from '../../open-api-spec/api/assets.service';
 import { AssetDisplayMode } from '../../types/asset-display-mode';
+import { ProfilesAndAssetsStateService } from '../profiles-and-assets-state.service';
+import { combineLatest, filter, map, switchMap } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -8,13 +10,24 @@ export class AssetsManagementService {
   // TODO add API key for more real-life situation
   // connectionService = inject(AssetsService)
 
-  assetDisplayMode = AssetDisplayMode.Added;
+  assetDisplayMode = signal(AssetDisplayMode.Added);
 
   assetsService = inject(AssetsService);
+  profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
+
   constructor() {}
 
   getAssetsByNumberOfAssets(limit: number) {
-    return this.assetsService.assets({ limit });
+    const currentProfile$ = this.profilesAndAssetsStateService.getCurrentProfile$();
+    const allAssets$ = this.assetsService.assets({ limit });
+
+    return combineLatest([currentProfile$, allAssets$]).pipe(
+      map(([currentProfile, allAssets]) =>
+        allAssets.data?.filter((asset) => {
+          return !currentProfile.assetIds.includes(asset.id as string);
+        })
+      )
+    );
   }
 
   getAssetsBySearchString(search: string) {
@@ -22,7 +35,7 @@ export class AssetsManagementService {
   }
 
   getAssetsByIds(ids: string[]) {
-    return this.assetsService.assets({ ids });
+    return this.assetsService.assets({ ids }).pipe(map(assets => assets.data));
   }
 
   getAssetById(id: string) {
@@ -30,6 +43,6 @@ export class AssetsManagementService {
   }
 
   setAssetDisplayMode(displayMode: AssetDisplayMode) {
-    this.assetDisplayMode = displayMode;
+    this.assetDisplayMode.set(displayMode);
   }
 }
