@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
 import { AssetsManagementService } from '../../../../shared/services/assets-management-service/assets-management.service';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, map, of, switchMap } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
@@ -21,7 +21,6 @@ export class AssetGridContainerComponent {
   constructor(@Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) {
     if (dialogData) {
       this.assets$ = this.assetsManagerService.getAssetsByNumberOfAssets(20);
-      this.assetsManagerService.setAssetDisplayMode(AssetDisplayMode.Available)
     }
   }
   breakpointObserver = inject(BreakpointObserver);
@@ -46,9 +45,15 @@ export class AssetGridContainerComponent {
       })
     );
 
-  assets$: Observable<InlineResponse200DataInner[] | undefined>  = this.profilesAndAssetsStateService.getCurrentProfile$().pipe(
-    switchMap((currentProfile) => {
-      return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
-    })
-  );
+  assets$: Observable<InlineResponse200DataInner[] | undefined> = this.profilesAndAssetsStateService
+    .getCurrentProfile$()
+    .pipe(
+      switchMap((currentProfile) => {
+        if(currentProfile.assetIds.length) {
+          return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
+        } else {
+          return of([]);
+        }
+      })
+    );
 }

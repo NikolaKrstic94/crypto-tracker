@@ -39,8 +39,12 @@ export class AssetCardComponent implements OnInit {
     }
   }
 
-  removeAsset() {
-    this.profilesAndAssetsStateService.removeAsset();
+  removeAsset(assetId: string | undefined) {
+    if (!assetId) {
+      console.error("There's no assed ID to remove");
+      return;
+    }
+    this.profilesAndAssetsStateService.removeAsset(assetId);
   }
 
   addAsset(assetId: string | undefined) {

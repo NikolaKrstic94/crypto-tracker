@@ -1,16 +1,18 @@
 <mat-card>
-    <div class="card-upper">
-      <img class="crypto-icon-img" [src]="pathToIcon" [alt]="altName">
-      <mat-card-header>
-        <mat-card-title>{{ assetData.name }}</mat-card-title>
-        <mat-card-subtitle>{{ assetData.priceUsd | currency: currencyId : 'symbol' : '1.2-2' }}</mat-card-subtitle>
-      </mat-card-header>
-    </div>
-    <mat-card-actions class="card-lower">
-      @if (assetManagementService.assetDisplayMode() === assetDisplayModeEnum.Available) {
-        <button mat-button (click)="addAsset(assetData.id)">Add</button>
-      } @else if(assetManagementService.assetDisplayMode() === assetDisplayModeEnum.Added) {
-        <button mat-button (click)="removeAsset()">Remove</button>
-      }
-    </mat-card-actions>
+  <div class="card-upper">
+    <img class="crypto-icon-img" [src]="pathToIcon" [alt]="altName" />
+    <mat-card-header>
+      <mat-card-title>{{ assetData.name }}</mat-card-title>
+      <mat-card-subtitle>{{
+        assetData.priceUsd | currency : currencyId : "symbol" : "1.2-2"
+      }}</mat-card-subtitle>
+    </mat-card-header>
+  </div>
+  <mat-card-actions class="card-lower">
+    @if (assetManagementService.assetDisplayMode() === assetDisplayModeEnum.Available) {
+    <button mat-button (click)="addAsset(assetData.id)">Add</button>
+    } @else if(assetManagementService.assetDisplayMode() === assetDisplayModeEnum.Added) {
+    <button mat-button (click)="removeAsset(assetData.id)">Remove</button>
+    }
+  </mat-card-actions>
 </mat-card>

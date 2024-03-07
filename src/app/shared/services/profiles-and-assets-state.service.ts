@@ -9,7 +9,7 @@ import { ProfileListComponent } from '../../shell/main/dashboard/profile-list/pr
 export class ProfilesAndAssetsStateService {
   private defaultProfile: AssetUserProfile = {
     profileId: 'defaultProfile',
-    assetIds: ['bitcoin', 'ethereum'],
+    assetIds: ['bitcoin'],
     isCurrent: true,
     isDefault: true,
   };
@@ -42,20 +42,24 @@ export class ProfilesAndAssetsStateService {
   }
 
   // TODO
-  // changeProfileToCurrent(profileId: string) {
-  //   let allProfiles = this.getAllProfiles();
+  /*
+    changeProfileToCurrent(profileId: string) {
+    let allProfiles = this.getAllProfiles();
 
-  //   allProfiles = allProfiles.map((profile: AssetUserProfile) => ({
-  //     ...profile,
-  //     isCurrent: false,
-  //   }));
+    allProfiles = allProfiles.map((profile: AssetUserProfile) => ({
+      ...profile,
+      isCurrent: false,
+    }));
 
-  // }
+  } */
 
   addAsset(assetId: string) {
     const currentProfile = this.getCurrentProfile();
 
-    if (!currentProfile) return;
+    if (!currentProfile) {
+      console.error("There's no selected user to add asset to");
+      return;
+    }
 
     if (!currentProfile.assetIds?.includes(assetId)) {
       const updatedProfile: AssetUserProfile = {
@@ -63,6 +67,32 @@ export class ProfilesAndAssetsStateService {
         assetIds: [...currentProfile.assetIds, assetId],
         isCurrent: true,
       };
+
+      const allProfiles = this.getAllProfiles();
+
+      const allProfilesWithUpdatedData = allProfiles.map((profile) =>
+        profile.profileId === updatedProfile.profileId ? updatedProfile : profile
+      );
+
+      this.updateLocalStorageDataAndSubject(allProfilesWithUpdatedData);
+    }
+  }
+
+  removeAsset(assetId: string) {
+    const currentProfile = this.getCurrentProfile();
+
+    if (!currentProfile) {
+      console.error("There's no selected user to remove asset from");
+      return;
+    }
+
+    if (currentProfile.assetIds?.includes(assetId)) {
+      const updatedProfile: AssetUserProfile = {
+        ...currentProfile,
+        assetIds: [...currentProfile.assetIds.filter((asset) => asset !== assetId)],
+        isCurrent: true,
+      };
+
       const allProfiles = this.getAllProfiles();
 
       const allProfilesWithUpdatedData = allProfiles.map((profile) =>
@@ -75,12 +105,10 @@ export class ProfilesAndAssetsStateService {
 
   private updateLocalStorageDataAndSubject(profiles: AssetUserProfile[]) {
     localStorage.setItem('profiles', JSON.stringify(profiles));
-    if(this.allProfilesSubject) {
+
+    if (this.allProfilesSubject) {
       this.allProfilesSubject.next(profiles);
     }
-  }
-  removeAsset() {
-    // TODO
   }
 
   localStorageGetAllProfileIds() {
