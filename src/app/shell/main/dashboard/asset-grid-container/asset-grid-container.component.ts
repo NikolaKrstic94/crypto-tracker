@@ -1,13 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
 import { AssetsManagementService } from '../../../../shared/services/assets-management/assets-management.service';
-import { Observable, map, of, switchMap } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
 import { AssetListAndProfilesManagementService } from '../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 import { InlineResponse200DataInner } from '../../../../shared/open-api-spec/model/inlineResponse200DataInner';
-import { AssetDisplayMode } from '../../../../shared/types/asset-display-mode';
+import { AssetsPriceUpdateService } from '../../../../shared/services/assets-price-update/assets-price-update.service';
 
 @Component({
   selector: 'app-asset-grid-container',
@@ -18,16 +18,15 @@ import { AssetDisplayMode } from '../../../../shared/types/asset-display-mode';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetGridContainerComponent {
-  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) {
-    if (dialogData) {
-      this.assets$ = this.assetsManagerService.getAssetsByNumberOfAssets(20);
-    }
-  }
+  constructor(@Optional() @Inject(MAT_DIALOG_DATA) public dialogData: any) {}
   breakpointObserver = inject(BreakpointObserver);
   assetsManagerService = inject(AssetsManagementService);
   assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
+  assetsPriceUpdateService = inject(AssetsPriceUpdateService);
 
   currencyId = 'USD';
+  livePrices$ = this.assetsPriceUpdateService.prices$;
+  currentProfile$ = this.assetListandProfilesManagementService.getCurrentProfile$();
 
   cols$ = this.breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large])
@@ -44,16 +43,30 @@ export class AssetGridContainerComponent {
         return activeBreakpoint ? activeBreakpoint.cols : 4;
       }),
     );
+  /**
+   *
+   */
+  appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = this.currentProfile$.pipe(
+    switchMap((currentProfile) => {
+      if (!this.dialogData && currentProfile.assetIds.length) {
+        return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
+      } else if (this.dialogData) {
+        return this.assetsManagerService.getAssetsByNumberOfAssets(20);
+      } else {
+        return of([]);
+      }
+    }),
+  );
 
-  assets$: Observable<InlineResponse200DataInner[] | undefined> = this.assetListandProfilesManagementService
-    .getCurrentProfile$()
-    .pipe(
-      switchMap((currentProfile) => {
-        if (currentProfile.assetIds.length) {
-          return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
-        } else {
-          return of([]);
-        }
-      }),
-    );
+  assets$: Observable<InlineResponse200DataInner[] | undefined> = combineLatest([
+    this.appropriateAssets,
+    this.livePrices$,
+  ]).pipe(
+    map(([assets, livePrices]) => {
+      if (!assets) {
+        return undefined;
+      }
+      return assets.map((asset) => ({ ...asset, priceUsd: livePrices[asset.id as string] || asset.priceUsd }));
+    }),
+  );
 }

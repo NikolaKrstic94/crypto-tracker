@@ -9,8 +9,10 @@
   @if (profiles$ | async; as profiles) {
     @for (profile of profiles; track profile.profileId) {
       <mat-list-option [value]="profile.profileId" [selected]="profile.isCurrent"
-        >{{ profile.name }}
-        <button mat-raised-button color="warn" (click)="removeProfile(profile.profileId)">X</button></mat-list-option
+        ><div class="profile-option">
+          {{ profile.name }}
+          <button class="remove-profile-button" matTooltip="Remove Profile" mat-raised-button color="warn" (click)="removeProfile(profile.profileId)"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete_forever"></mat-icon></button>
+        </div></mat-list-option
       >
     }
   }

@@ -5,3 +5,8 @@ mat-grid-list {
 :host {
   width: 100%;
 }
+
+.no-assets-available {
+  color: var(--hover-text-color);
+  height: 100%;
+}

@@ -5,11 +5,10 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./shell/main/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
-  // {
-  // TODO DO A PAGE NOT FOUND HERE!
-  //   path: '**',
-  // loadComponent: () => import('./shell/main/main.component').then((m) => m.MainComponent),
-  // },
+  {
+    path: '**',
+    loadComponent: () => import('./shell/main/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+  },
   {
     path: '',
     redirectTo: 'home',

@@ -17,7 +17,6 @@ import { AssetsManagementService } from '../../../shared/services/assets-managem
 export class DashboardComponent {
   constructor(public dialog: MatDialog) {}
   assetsManagementService = inject(AssetsManagementService);
-
   matDialogRef!: MatDialogRef<AssetGridContainerComponent, any>;
 
   openAssetDialog() {
@@ -37,6 +36,4 @@ export class DashboardComponent {
       this.assetsManagementService.setAssetDisplayMode(AssetDisplayMode.Added);
     });
   }
-
-  ngOnInit() {}
 }

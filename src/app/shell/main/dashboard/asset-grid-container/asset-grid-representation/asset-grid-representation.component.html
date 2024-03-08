@@ -1,9 +1,11 @@
-<mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
-  @if (assets) {
-    @for (asset of assets; track asset) {
+@if (assets?.length) {
+  <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
+    @for (asset of assets; track asset.id) {
       <mat-grid-tile>
         <app-asset-card [assetData]="asset" [currencyId]="currencyId"></app-asset-card>
       </mat-grid-tile>
     }
-  }
-</mat-grid-list>
+  </mat-grid-list>
+} @else {
+  <h1 class="no-assets-available">There are no assets available</h1>
+}

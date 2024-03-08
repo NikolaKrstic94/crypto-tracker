@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProfileDialogComponent } from './add-profile-dialog/add-profile-dialog.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface AddProfileDialogData {
   profileName: string;
@@ -13,7 +15,7 @@ export interface AddProfileDialogData {
 @Component({
   selector: 'app-profile-list',
   standalone: true,
-  imports: [MatListModule, CommonModule, MatButtonModule],
+  imports: [MatListModule, CommonModule, MatButtonModule, MatTooltipModule, MatIconModule],
   templateUrl: './profile-list.component.html',
   styleUrl: './profile-list.component.scss',
 })

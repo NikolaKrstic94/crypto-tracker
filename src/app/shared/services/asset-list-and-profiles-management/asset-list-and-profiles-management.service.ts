@@ -59,9 +59,10 @@ export class AssetListAndProfilesManagementService {
     // TODO this is not complete, it needs a check whether it's a default profile and to forbid deletion of that one and pop a message! (toaster notification for example, why not!)
     let allProfiles = this.getAllProfiles();
 
-    let updatedAllProfiles = allProfiles.filter((profile) => profile.profileId !== profileId);
+    let profilesWithRemovedProfile = allProfiles.filter((profile) => profile.profileId !== profileId);
+    this.updateLocalStorageAndSubjectData(profilesWithRemovedProfile);
 
-    this.updateLocalStorageAndSubjectData(updatedAllProfiles);
+    this.setProfileAsActive(profilesWithRemovedProfile[0].profileId);
   }
 
   setProfileAsActive(activeProfileId: string) {
