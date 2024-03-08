@@ -12,7 +12,7 @@ import { InlineResponse200DataInner } from '../../../../../shared/open-api-spec/
   imports: [MatGridListModule, CommonModule, MatCardModule, AssetCardComponent],
   templateUrl: './asset-grid-representation.component.html',
   styleUrl: './asset-grid-representation.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetGridRepresentationComponent {
   @Input() assets!: InlineResponse200DataInner[] | undefined;

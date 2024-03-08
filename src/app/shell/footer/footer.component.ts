@@ -7,8 +7,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [MatToolbarModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterComponent {
-
-}
+export class FooterComponent {}

@@ -8,10 +8,9 @@ describe('AddProfileDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddProfileDialogComponent]
-    })
-    .compileComponents();
-    
+      imports: [AddProfileDialogComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AddProfileDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

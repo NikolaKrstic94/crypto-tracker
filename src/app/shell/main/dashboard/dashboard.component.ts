@@ -15,30 +15,28 @@ import { AssetsManagementService } from '../../../shared/services/assets-managem
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent {
-  constructor( public dialog: MatDialog) {}
-  assetsManagementService = inject(AssetsManagementService)
+  constructor(public dialog: MatDialog) {}
+  assetsManagementService = inject(AssetsManagementService);
 
-  matDialogRef!:MatDialogRef<AssetGridContainerComponent, any>
+  matDialogRef!: MatDialogRef<AssetGridContainerComponent, any>;
 
   openAssetDialog() {
     this.matDialogRef = this.dialog.open(AssetGridContainerComponent, {
       width: '100rem',
       height: '50rem',
       data: {
-        isDialog: true
-      }
-    })
+        isDialog: true,
+      },
+    });
 
     this.matDialogRef.afterOpened().subscribe(() => {
-      this.assetsManagementService.setAssetDisplayMode(AssetDisplayMode.Available)
-    })
+      this.assetsManagementService.setAssetDisplayMode(AssetDisplayMode.Available);
+    });
 
     this.matDialogRef.afterClosed().subscribe(() => {
-      this.assetsManagementService.setAssetDisplayMode(AssetDisplayMode.Added)
-    })
+      this.assetsManagementService.setAssetDisplayMode(AssetDisplayMode.Added);
+    });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

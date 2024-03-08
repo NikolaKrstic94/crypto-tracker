@@ -30,13 +30,13 @@ export class ProfileListComponent implements OnInit {
     const dialogRef = this.dialog.open(AddProfileDialogComponent, {});
   }
 
-  setProfileAsActive($event:MatSelectionListChange) {
-    const selectedProfileId = $event.options[0].value
+  setProfileAsActive($event: MatSelectionListChange) {
+    const selectedProfileId = $event.options[0].value;
 
-    this.profilesAndAssetsStateService.setProfileAsActive(selectedProfileId)
+    this.profilesAndAssetsStateService.setProfileAsActive(selectedProfileId);
   }
 
-  removeProfile(profileId:string) {
-    this.profilesAndAssetsStateService.removeProfileFromList(profileId)
+  removeProfile(profileId: string) {
+    this.profilesAndAssetsStateService.removeProfileFromList(profileId);
   }
 }

@@ -9,6 +9,6 @@ import { FooterComponent } from './footer/footer.component';
   imports: [NavComponent, MainComponent, FooterComponent],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShellComponent {}

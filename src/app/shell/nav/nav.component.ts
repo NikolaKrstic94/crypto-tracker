@@ -10,6 +10,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavComponent {}

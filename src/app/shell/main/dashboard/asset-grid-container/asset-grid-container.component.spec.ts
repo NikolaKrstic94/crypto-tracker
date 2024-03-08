@@ -8,10 +8,9 @@ describe('AssetGridContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AssetGridContainerComponent]
-    })
-    .compileComponents();
-    
+      imports: [AssetGridContainerComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AssetGridContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -42,18 +42,18 @@ export class AssetGridContainerComponent {
 
         const activeBreakpoint = breakpoints.find((bp) => result.breakpoints[bp.breakpoint]);
         return activeBreakpoint ? activeBreakpoint.cols : 4;
-      })
+      }),
     );
 
   assets$: Observable<InlineResponse200DataInner[] | undefined> = this.profilesAndAssetsStateService
     .getCurrentProfile$()
     .pipe(
       switchMap((currentProfile) => {
-        if(currentProfile.assetIds.length) {
+        if (currentProfile.assetIds.length) {
           return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
         } else {
           return of([]);
         }
-      })
+      }),
     );
 }

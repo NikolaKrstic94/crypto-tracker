@@ -25,8 +25,8 @@ export class AssetsManagementService {
       map(([currentProfile, allAssets]) =>
         allAssets.data?.filter((asset) => {
           return !currentProfile.assetIds.includes(asset.id as string);
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -35,7 +35,7 @@ export class AssetsManagementService {
   }
 
   getAssetsByIds(ids: string[]) {
-    return this.assetsService.assets({ ids }).pipe(map(assets => assets.data));
+    return this.assetsService.assets({ ids }).pipe(map((assets) => assets.data));
   }
 
   getAssetById(id: string) {

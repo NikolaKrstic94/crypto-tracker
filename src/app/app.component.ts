@@ -7,6 +7,6 @@ import { ShellComponent } from './shell/shell.component';
   imports: [ShellComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}

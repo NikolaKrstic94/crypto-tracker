@@ -1,18 +1,20 @@
 @if (dialogData?.isDialog) {
-<h2 mat-dialog-title>Add Asset</h2>
-<mat-dialog-content>
+  <h2 mat-dialog-title>Add Asset</h2>
+  <mat-dialog-content>
+    @if (assets$ | async; as assets) {
+      <app-asset-grid-representation
+        [assets]="assets"
+        [cols]="cols$ | async"
+        [currencyId]="currencyId"
+      ></app-asset-grid-representation>
+    }
+  </mat-dialog-content>
+} @else {
   @if (assets$ | async; as assets) {
-  <app-asset-grid-representation
-    [assets]="assets"
-    [cols]="cols$ | async"
-    [currencyId]="currencyId"
-  ></app-asset-grid-representation>
+    <app-asset-grid-representation
+      [assets]="assets"
+      [cols]="cols$ | async"
+      [currencyId]="currencyId"
+    ></app-asset-grid-representation>
   }
-</mat-dialog-content>
-} @else { @if (assets$ | async; as assets) {
-<app-asset-grid-representation
-  [assets]="assets"
-  [cols]="cols$ | async"
-  [currencyId]="currencyId"
-></app-asset-grid-representation>
-} }
+}

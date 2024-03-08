@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AssetsManagementService } from './assets-management.service';
 
-
 describe('ConnectionService', () => {
   let service: AssetsManagementService;
 

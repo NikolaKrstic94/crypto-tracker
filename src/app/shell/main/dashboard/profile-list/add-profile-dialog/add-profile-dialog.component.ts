@@ -31,7 +31,7 @@ import { ProfilesAndAssetsStateService } from '../../../../../shared/services/pr
 export class AddProfileDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddProfileDialogComponent, any>,
-    @Inject(MAT_DIALOG_DATA) public data: AddProfileDialogData
+    @Inject(MAT_DIALOG_DATA) public data: AddProfileDialogData,
   ) {}
 
   profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
