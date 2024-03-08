@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatListModule, MatSelectionListChange } from '@angular/material/list';
-import { ProfilesAndAssetsStateService } from '../../../../shared/services/profiles-and-assets-state.service';
+import { AssetListAndProfilesManagementService } from '../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,10 +19,10 @@ export interface AddProfileDialogData {
 })
 export class ProfileListComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
-  profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
+  assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
 
-  profiles$ = this.profilesAndAssetsStateService.allProfiles$;
-  currentProfile$ = this.profilesAndAssetsStateService.getCurrentProfile$();
+  profiles$ = this.assetListandProfilesManagementService.allProfiles$;
+  currentProfile$ = this.assetListandProfilesManagementService.getCurrentProfile$();
 
   ngOnInit() {}
 
@@ -33,10 +33,10 @@ export class ProfileListComponent implements OnInit {
   setProfileAsActive($event: MatSelectionListChange) {
     const selectedProfileId = $event.options[0].value;
 
-    this.profilesAndAssetsStateService.setProfileAsActive(selectedProfileId);
+    this.assetListandProfilesManagementService.setProfileAsActive(selectedProfileId);
   }
 
   removeProfile(profileId: string) {
-    this.profilesAndAssetsStateService.removeProfileFromList(profileId);
+    this.assetListandProfilesManagementService.removeProfileFromList(profileId);
   }
 }

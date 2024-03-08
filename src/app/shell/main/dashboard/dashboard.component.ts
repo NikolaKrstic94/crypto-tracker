@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AssetDisplayMode } from '../../../shared/types/asset-display-mode';
 import { ProfileListComponent } from './profile-list/profile-list.component';
-import { AssetsManagementService } from '../../../shared/services/assets-management-service/assets-management.service';
+import { AssetsManagementService } from '../../../shared/services/assets-management/assets-management.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,

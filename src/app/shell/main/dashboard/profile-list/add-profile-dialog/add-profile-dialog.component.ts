@@ -11,7 +11,7 @@ import { AddProfileDialogData } from '../profile-list.component';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { ProfilesAndAssetsStateService } from '../../../../../shared/services/profiles-and-assets-state.service';
+import { AssetListAndProfilesManagementService } from '../../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 
 @Component({
   selector: 'app-add-profile-dialog',
@@ -34,12 +34,12 @@ export class AddProfileDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: AddProfileDialogData,
   ) {}
 
-  profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
+  assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
 
   profileName!: string;
 
   addProfile(profileName: string) {
-    this.profilesAndAssetsStateService.addProfileToList(profileName);
+    this.assetListandProfilesManagementService.addProfileToList(profileName);
 
     this.dialogRef.close();
   }

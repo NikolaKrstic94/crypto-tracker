@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { AssetsService } from '../../open-api-spec/api/assets.service';
 import { AssetDisplayMode } from '../../types/asset-display-mode';
-import { ProfilesAndAssetsStateService } from '../profiles-and-assets-state.service';
+import { AssetListAndProfilesManagementService } from '../asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 import { combineLatest, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -13,12 +13,12 @@ export class AssetsManagementService {
   assetDisplayMode = signal(AssetDisplayMode.Added);
 
   assetsService = inject(AssetsService);
-  profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
+  assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
 
   constructor() {}
 
   getAssetsByNumberOfAssets(limit: number) {
-    const currentProfile$ = this.profilesAndAssetsStateService.getCurrentProfile$();
+    const currentProfile$ = this.assetListandProfilesManagementService.getCurrentProfile$();
     const allAssets$ = this.assetsService.assets({ limit });
 
     return combineLatest([currentProfile$, allAssets$]).pipe(

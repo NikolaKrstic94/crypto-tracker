@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
-import { AssetUserProfile } from '../types/asset-user-profile';
+import { AssetUserProfile } from '../../types/asset-user-profile';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfilesAndAssetsStateService {
+export class AssetListAndProfilesManagementService {
   private defaultProfile: AssetUserProfile = this.createDefaultProfile();
 
   allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>(this.getAllProfiles());

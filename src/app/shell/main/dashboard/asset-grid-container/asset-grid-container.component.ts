@@ -1,11 +1,11 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
-import { AssetsManagementService } from '../../../../shared/services/assets-management-service/assets-management.service';
+import { AssetsManagementService } from '../../../../shared/services/assets-management/assets-management.service';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
-import { ProfilesAndAssetsStateService } from '../../../../shared/services/profiles-and-assets-state.service';
+import { AssetListAndProfilesManagementService } from '../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 import { InlineResponse200DataInner } from '../../../../shared/open-api-spec/model/inlineResponse200DataInner';
 import { AssetDisplayMode } from '../../../../shared/types/asset-display-mode';
 
@@ -25,7 +25,7 @@ export class AssetGridContainerComponent {
   }
   breakpointObserver = inject(BreakpointObserver);
   assetsManagerService = inject(AssetsManagementService);
-  profilesAndAssetsStateService = inject(ProfilesAndAssetsStateService);
+  assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
 
   currencyId = 'USD';
 
@@ -45,7 +45,7 @@ export class AssetGridContainerComponent {
       }),
     );
 
-  assets$: Observable<InlineResponse200DataInner[] | undefined> = this.profilesAndAssetsStateService
+  assets$: Observable<InlineResponse200DataInner[] | undefined> = this.assetListandProfilesManagementService
     .getCurrentProfile$()
     .pipe(
       switchMap((currentProfile) => {
