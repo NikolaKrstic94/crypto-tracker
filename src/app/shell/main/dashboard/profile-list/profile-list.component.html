@@ -1,6 +1,7 @@
-<h3>Profiles:</h3>
-<mat-selection-list #profileIdsList [multiple]="false" color="primary">
-  @if (profiles$ | async; as profiles) { @for (profile of profiles; track profile) {
-  <mat-list-option [value]="profile.profileId">{{ profile.profileId }}</mat-list-option>
+<h3>Profiles</h3>
+<mat-selection-list #profileIdsList [multiple]="false" color="primary" (selectionChange)="setProfileAsActive($event)" hideSingleSelectionIndicator>
+  @if (profiles$ | async; as profiles) { @for (profile of profiles; track profile.profileId) {
+  <mat-list-option [value]="profile.profileId" [selected]="profile.isCurrent">{{ profile.name }} <button mat-raised-button color="warn" (click)="removeProfile(profile.profileId)">X</button></mat-list-option>
   } }
 </mat-selection-list>
+<button class="add-profile-button" mat-raised-button (click)="addProfile()">Add Profile +</button>

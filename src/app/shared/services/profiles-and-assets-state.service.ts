@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { AssetUserProfile } from '../types/asset-user-profile';
-import { ProfileListComponent } from '../../shell/main/dashboard/profile-list/profile-list.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfilesAndAssetsStateService {
-  private defaultProfile: AssetUserProfile = {
-    profileId: 'defaultProfile',
-    assetIds: ['bitcoin'],
-    isCurrent: true,
-    isDefault: true,
-  };
+  private defaultProfile: AssetUserProfile = this.createDefaultProfile();
 
   allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>(this.getAllProfiles());
   allProfiles$ = this.allProfilesSubject.asObservable();
 
-  numOfProfiles!: number;
-
   constructor() {}
 
-  getCurrentProfile() {
+  private createDefaultProfile(): AssetUserProfile {
+    return {
+      profileId: crypto.randomUUID(),
+      name: 'Default',
+      assetIds: ['bitcoin'],
+      isCurrent: true,
+      isDefault: true,
+    };
+  }
+
+  private getCurrentProfile() {
     let allProfiles: AssetUserProfile[] = this.getAllProfiles();
 
     return allProfiles.find((profile) => profile.isCurrent);
@@ -30,7 +32,7 @@ export class ProfilesAndAssetsStateService {
   getCurrentProfile$(): Observable<AssetUserProfile> {
     return this.allProfiles$.pipe(
       map((profiles) => profiles.find((profile) => profile.isCurrent)),
-      filter((profile) => profile !== undefined)
+      filter((profile) => profile !== undefined),
     ) as Observable<AssetUserProfile>;
   }
 
@@ -41,17 +43,58 @@ export class ProfilesAndAssetsStateService {
     return allProfiles;
   }
 
-  // TODO
-  /*
-    changeProfileToCurrent(profileId: string) {
+  addProfileToList(profileName: string) {
+    const userProfileToAdd: AssetUserProfile = this.initializeNewProfileObj(profileName);
+
+    const allProfiles = this.getAllProfiles();
+
+    let updatedAllProfiles = [...allProfiles, userProfileToAdd];
+
+    this.updateLocalStorageAndSubjectData(updatedAllProfiles);
+
+    this.setProfileAsActive(userProfileToAdd.profileId);
+  }
+
+  removeProfileFromList(profileId: string) {
+    // TODO this is not complete, it needs a check whether it's a default profile and to forbid deletion of that one and pop a message! (toaster notification for example, why not!)
     let allProfiles = this.getAllProfiles();
 
-    allProfiles = allProfiles.map((profile: AssetUserProfile) => ({
-      ...profile,
-      isCurrent: false,
-    }));
+    let updatedAllProfiles = allProfiles.filter((profile) => profile.profileId !== profileId);
 
-  } */
+    this.updateLocalStorageAndSubjectData(updatedAllProfiles);
+  }
+
+  setProfileAsActive(activeProfileId: string) {
+    let allProfiles = this.getAllProfiles();
+
+    allProfiles = this.resetAllProfilesCurrentStatus(allProfiles);
+
+    allProfiles = allProfiles.map((profile) => {
+      if (profile.profileId === activeProfileId) {
+        return { ...profile, isCurrent: true };
+      }
+      return profile;
+    });
+
+    this.updateLocalStorageAndSubjectData(allProfiles);
+  }
+
+  private initializeNewProfileObj(profileName: string): AssetUserProfile {
+    return {
+      name: profileName,
+      profileId: crypto.randomUUID(),
+      assetIds: this.defaultProfile.assetIds,
+      isCurrent: true,
+      isDefault: false,
+    };
+  }
+
+  private resetAllProfilesCurrentStatus(allProfiles: AssetUserProfile[]) {
+    allProfiles = allProfiles.map((profile) => {
+      return { ...profile, isCurrent: false };
+    });
+    return allProfiles;
+  }
 
   addAsset(assetId: string) {
     const currentProfile = this.getCurrentProfile();
@@ -71,10 +114,10 @@ export class ProfilesAndAssetsStateService {
       const allProfiles = this.getAllProfiles();
 
       const allProfilesWithUpdatedData = allProfiles.map((profile) =>
-        profile.profileId === updatedProfile.profileId ? updatedProfile : profile
+        profile.profileId === updatedProfile.profileId ? updatedProfile : profile,
       );
 
-      this.updateLocalStorageDataAndSubject(allProfilesWithUpdatedData);
+      this.updateLocalStorageAndSubjectData(allProfilesWithUpdatedData);
     }
   }
 
@@ -96,14 +139,14 @@ export class ProfilesAndAssetsStateService {
       const allProfiles = this.getAllProfiles();
 
       const allProfilesWithUpdatedData = allProfiles.map((profile) =>
-        profile.profileId === updatedProfile.profileId ? updatedProfile : profile
+        profile.profileId === updatedProfile.profileId ? updatedProfile : profile,
       );
 
-      this.updateLocalStorageDataAndSubject(allProfilesWithUpdatedData);
+      this.updateLocalStorageAndSubjectData(allProfilesWithUpdatedData);
     }
   }
 
-  private updateLocalStorageDataAndSubject(profiles: AssetUserProfile[]) {
+  private updateLocalStorageAndSubjectData(profiles: AssetUserProfile[]) {
     localStorage.setItem('profiles', JSON.stringify(profiles));
 
     if (this.allProfilesSubject) {
@@ -111,14 +154,16 @@ export class ProfilesAndAssetsStateService {
     }
   }
 
-  localStorageGetAllProfileIds() {
-    return this.getAllProfiles().map((profile) => profile.profileId);
-  }
-
   initializeLocalStorage() {
-    if (!localStorage.getItem('profiles')) {
+    if (localStorage.getItem('profiles') === null) {
+      return;
+    }
+
+    let profilesArray: AssetUserProfile[] = JSON.parse(localStorage.getItem('profiles')!);
+
+    if (!profilesArray.length) {
       let starterData: AssetUserProfile[] = [this.defaultProfile];
-      this.updateLocalStorageDataAndSubject(starterData);
+      this.updateLocalStorageAndSubjectData(starterData);
     }
   }
 }

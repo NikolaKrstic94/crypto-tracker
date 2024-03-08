@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Enter Profile Name:</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="profileName"  (keyup.enter)="addProfile(profileName)" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button cdkFocusInitial (click)="addProfile(profileName)">Ok</button>
+</mat-dialog-actions>

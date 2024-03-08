@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { AssetsService } from '../../open-api-spec/api/assets.service';
 import { AssetDisplayMode } from '../../types/asset-display-mode';
 import { ProfilesAndAssetsStateService } from '../profiles-and-assets-state.service';
-import { combineLatest, filter, map, switchMap } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
