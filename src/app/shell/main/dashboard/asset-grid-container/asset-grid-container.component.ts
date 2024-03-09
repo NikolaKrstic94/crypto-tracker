@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
 import { AssetListAndProfilesManagementService } from '../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 import { InlineResponse200DataInner } from '../../../../shared/open-api-spec/model/inlineResponse200DataInner';
 import { AssetsPriceUpdateService } from '../../../../shared/services/assets-price-update/assets-price-update.service';
+import { RatesManagementService } from '../../../../shared/services/rates-management/rates-management.service';
 
 @Component({
   selector: 'app-asset-grid-container',
@@ -23,10 +24,11 @@ export class AssetGridContainerComponent {
   assetsManagerService = inject(AssetsManagementService);
   assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
   assetsPriceUpdateService = inject(AssetsPriceUpdateService);
+  ratesManagementService = inject(RatesManagementService);
 
-  currencyId = 'USD';
   livePrices$ = this.assetsPriceUpdateService.prices$;
   currentProfile$ = this.assetListandProfilesManagementService.getCurrentProfile$();
+  selectedCurrency$ = this.ratesManagementService.selectedCurrency$;
 
   cols$ = this.breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large])
@@ -61,12 +63,20 @@ export class AssetGridContainerComponent {
   assets$: Observable<InlineResponse200DataInner[] | undefined> = combineLatest([
     this.appropriateAssets,
     this.livePrices$,
+    this.selectedCurrency$,
   ]).pipe(
-    map(([assets, livePrices]) => {
+    map(([assets, livePrices, selectedCurrency]) => {
       if (!assets) {
         return undefined;
       }
-      return assets.map((asset) => ({ ...asset, priceUsd: livePrices[asset.id as string] || asset.priceUsd }));
+      return assets.map((asset) => {
+        const priceUsd = livePrices[asset.id as string] || asset.priceUsd || 0 ;
+        const exchangeRate = selectedCurrency.rateUsd;
+
+        const price = parseFloat(priceUsd) / parseFloat(exchangeRate || '1');
+
+        return { ...asset, priceUsd: price.toFixed(2) }
+      });
     }),
   );
 }

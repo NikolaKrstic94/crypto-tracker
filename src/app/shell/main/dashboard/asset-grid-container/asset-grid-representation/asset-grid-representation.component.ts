@@ -45,7 +45,6 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @Input() assets!: InlineResponse200DataInner[] | undefined;
   @Input() cols: number | null = 4;
-  @Input() currencyId: string = '';
 
   cd = inject(ChangeDetectorRef);
   dataSource = new MatTableDataSource<InlineResponse200DataInner>(this.assets);

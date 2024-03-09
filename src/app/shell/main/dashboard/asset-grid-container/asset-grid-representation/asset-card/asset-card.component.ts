@@ -7,6 +7,7 @@ import { AssetsManagementService } from '../../../../../../shared/services/asset
 import { AssetDisplayMode } from '../../../../../../shared/types/asset-display-mode';
 import { AssetListAndProfilesManagementService } from '../../../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { RatesManagementService } from '../../../../../../shared/services/rates-management/rates-management.service';
 
 @Component({
   selector: 'app-asset-card',
@@ -17,12 +18,12 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class AssetCardComponent implements OnInit {
   @Input() assetData!: InlineResponse200DataInner;
-  @Input() currencyId!: string;
   @Input() dataSource!: MatTableDataSource<InlineResponse200DataInner>;
 
   assetManagementService = inject(AssetsManagementService);
   assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
-
+  ratesManagementService = inject(RatesManagementService);
+  selectedCurrency$ = this.ratesManagementService.selectedCurrency$;
   pathToIcon!: string;
   iconNameToLowerCase!: string;
   altName!: string;
@@ -43,7 +44,7 @@ export class AssetCardComponent implements OnInit {
 
   removeAsset(assetId: string | undefined) {
     if (!assetId) {
-      console.error("There's no assed ID to remove");
+      console.error("There's no assigned ID to remove");
       return;
     }
     this.assetListandProfilesManagementService.removeAsset(assetId);
@@ -51,7 +52,7 @@ export class AssetCardComponent implements OnInit {
 
   addAsset(assetId: string | undefined) {
     if (!assetId) {
-      console.error("There's no assed ID to add");
+      console.error("There's no assigned ID to add");
       return;
     }
     this.assetListandProfilesManagementService.addAsset(assetId);

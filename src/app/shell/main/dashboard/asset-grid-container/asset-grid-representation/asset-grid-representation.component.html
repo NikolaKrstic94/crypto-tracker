@@ -5,7 +5,7 @@
   <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
     @for (asset of assets; track asset.id) {
       <mat-grid-tile>
-        <app-asset-card [assetData]="asset" [currencyId]="currencyId"></app-asset-card>
+        <app-asset-card [assetData]="asset"></app-asset-card>
       </mat-grid-tile>
     }
   </mat-grid-list>

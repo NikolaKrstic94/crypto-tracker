@@ -3,10 +3,27 @@
   <div>
     <span><mat-icon>currency_exchange</mat-icon></span>
     <button mat-button [matMenuTriggerFor]="menu">EUR</button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>EUR</button>
-      <button mat-menu-item>USD</button>
-      <button mat-menu-item>AED</button>
+    <mat-menu #menu>
+      <div (click)="$event.stopPropagation()">
+        <mat-form-field appearance="fill">
+          <mat-label
+            ><div><mat-icon>search</mat-icon>Search Currencies</div></mat-label
+          >
+          <input
+            #searchInput
+            matInput
+            [(ngModel)]="searchText"
+            (keydown)="$event.stopPropagation()"
+            (ngModelChange)="applyFilter($event)"
+          />
+        </mat-form-field>
+      </div>
+      @if (currencies$ | async) {
+        @for (currency of dataSource.filteredData; track currency.id) {
+          <button (click)="setCurrency(currency)" mat-menu-item>{{ currency.symbol }}</button>
+        }
+      }
     </mat-menu>
   </div>
 </mat-toolbar>
+{{ dataSource.filteredData | json }}
