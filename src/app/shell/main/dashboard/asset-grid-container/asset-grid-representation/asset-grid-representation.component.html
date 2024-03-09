@@ -1,4 +1,4 @@
-@if (assets?.length) {
+@if (dataSourceAssets$ | async; as assets) {
   <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
     @for (asset of assets; track asset.id) {
       <mat-grid-tile>
@@ -9,3 +9,5 @@
 } @else {
   <h1 class="no-assets-available">There are no assets available</h1>
 }
+<mat-paginator [length]="assets?.length" [pageSizeOptions]="[4,8,12,16]"></mat-paginator>
+

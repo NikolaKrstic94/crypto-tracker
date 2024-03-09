@@ -6,6 +6,7 @@ import { InlineResponse200DataInner } from '../../../../../../shared/open-api-sp
 import { AssetsManagementService } from '../../../../../../shared/services/assets-management/assets-management.service';
 import { AssetDisplayMode } from '../../../../../../shared/types/asset-display-mode';
 import { AssetListAndProfilesManagementService } from '../../../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-asset-card',
@@ -17,6 +18,7 @@ import { AssetListAndProfilesManagementService } from '../../../../../../shared/
 export class AssetCardComponent implements OnInit {
   @Input() assetData!: InlineResponse200DataInner;
   @Input() currencyId!: string;
+  @Input() dataSource!: MatTableDataSource<InlineResponse200DataInner>;
 
   assetManagementService = inject(AssetsManagementService);
   assetListandProfilesManagementService = inject(AssetListAndProfilesManagementService);
