@@ -1,3 +1,9 @@
+<div>
+  <mat-form-field class="search-form-field" appearance="fill">
+    <mat-label>Search Assets</mat-label>
+    <input matInput [(ngModel)]="searchText" (keyup)="applyFilter()">
+  </mat-form-field>
+</div>
 @if (dataSourceAssets$ | async; as assets) {
   <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
     @for (asset of assets; track asset.id) {

@@ -18,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-asset-grid-representation',
@@ -30,6 +32,8 @@ import { Observable } from 'rxjs';
     MatFormFieldModule,
     MatPaginatorModule,
     MatPaginator,
+    FormsModule,
+    MatInputModule
   ],
   templateUrl: './asset-grid-representation.component.html',
   styleUrl: './asset-grid-representation.component.scss',
@@ -44,6 +48,7 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
   cd = inject(ChangeDetectorRef);
   dataSource = new MatTableDataSource<InlineResponse200DataInner>(this.assets);
   dataSourceAssets$!: Observable<InlineResponse200DataInner[]>;
+  searchText: string = '';
 
   ngOnInit() {
     this.cd.detectChanges();
@@ -59,5 +64,12 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
     if (changes['assets']) {
       this.dataSource.data = this.assets as InlineResponse200DataInner[];
     }
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    const filterValue = this.searchText.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+    this.dataSource.data = this.dataSource.filteredData;
   }
 }

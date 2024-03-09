@@ -1,5 +1,4 @@
 @if (dialogData?.isDialog) {
-  <h2 mat-dialog-title>Add Asset</h2>
   <mat-dialog-content>
     @if (assets$ | async; as assets) {
       <app-asset-grid-representation
