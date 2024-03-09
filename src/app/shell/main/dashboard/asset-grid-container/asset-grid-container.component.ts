@@ -44,14 +44,14 @@ export class AssetGridContainerComponent {
       }),
     );
   /**
-   *
+   * Gets the appropriate assets based on whether they are needed in a dashboard or in a dialog
    */
   appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = this.currentProfile$.pipe(
     switchMap((currentProfile) => {
       if (!this.dialogData && currentProfile.assetIds.length) {
         return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
       } else if (this.dialogData) {
-        return this.assetsManagerService.getAssetsByNumberOfAssets(20);
+        return this.assetsManagerService.getAssetsByNumberOfAssets(2000);
       } else {
         return of([]);
       }
