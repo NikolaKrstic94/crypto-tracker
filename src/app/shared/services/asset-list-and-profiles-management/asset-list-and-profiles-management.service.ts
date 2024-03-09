@@ -156,13 +156,9 @@ export class AssetListAndProfilesManagementService {
   }
 
   initializeLocalStorage() {
-    if (localStorage.getItem('profiles') === null) {
-      return;
-    }
-
     let profilesArray: AssetUserProfile[] = JSON.parse(localStorage.getItem('profiles')!);
 
-    if (!profilesArray.length) {
+    if (!profilesArray) {
       let starterData: AssetUserProfile[] = [this.defaultProfile];
       this.updateLocalStorageAndSubjectData(starterData);
     }

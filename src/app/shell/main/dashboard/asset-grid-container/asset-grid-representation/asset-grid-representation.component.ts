@@ -47,14 +47,12 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.cd.detectChanges();
-    this.dataSource = new MatTableDataSource<InlineResponse200DataInner>(this.assets);
     this.dataSource.paginator = this.paginator;
+    this.dataSourceAssets$ = this.dataSource.connect();
 
     if (this.paginator) {
       this.paginator.pageSize = 16;
     }
-
-    this.dataSourceAssets$ = this.dataSource.connect();
   }
 
   ngOnChanges(changes: SimpleChanges) {
