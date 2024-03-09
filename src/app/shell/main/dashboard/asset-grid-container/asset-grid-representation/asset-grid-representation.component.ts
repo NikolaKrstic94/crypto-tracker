@@ -20,6 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-asset-grid-representation',
@@ -33,7 +34,8 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     MatPaginator,
     FormsModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
   templateUrl: './asset-grid-representation.component.html',
   styleUrl: './asset-grid-representation.component.scss',

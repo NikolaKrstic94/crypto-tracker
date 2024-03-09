@@ -1,10 +1,7 @@
-<div>
-  <mat-form-field class="search-form-field" appearance="fill">
-    <mat-label>Search Assets</mat-label>
-    <input matInput [(ngModel)]="searchText" (keyup)="applyFilter()">
-  </mat-form-field>
-</div>
 @if (dataSourceAssets$ | async; as assets) {
+  @if (!assets?.length) {
+    <h1 class="no-assets-available">There are no assets available</h1>
+  }
   <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
     @for (asset of assets; track asset.id) {
       <mat-grid-tile>
@@ -12,8 +9,16 @@
       </mat-grid-tile>
     }
   </mat-grid-list>
-} @else {
-  <h1 class="no-assets-available">There are no assets available</h1>
 }
-<mat-paginator [length]="assets?.length" [pageSizeOptions]="[4,8,12,16]"></mat-paginator>
 
+<div class="paginator-search-div">
+  @if (assets?.length) {
+    <mat-form-field appearance="outline">
+      <mat-label
+        ><div class="search-placeholder-text"><mat-icon>search</mat-icon>Search Assets</div></mat-label
+      >
+      <input matInput [(ngModel)]="searchText" (keyup)="applyFilter()" />
+    </mat-form-field>
+  }
+  <mat-paginator [length]="assets?.length" [pageSizeOptions]="[4, 8, 12, 16]"></mat-paginator>
+</div>
