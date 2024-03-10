@@ -2,7 +2,7 @@
   <div class="card-upper">
     <img class="crypto-icon-img" [src]="pathToIcon" [alt]="altName" />
     <mat-card-header>
-      <mat-card-title>{{ assetData.name }}</mat-card-title>
+      <mat-card-title [ngClass]="{'small-font' : assetData.name?.length! > 9}" >{{ assetData.name }}</mat-card-title>
       @if (selectedCurrency$ | async; as selectedCurrency) {
         <mat-card-subtitle>{{ assetData.priceUsd | currency: (selectedCurrency.symbol) : "symbol" : "1.2-2" }}</mat-card-subtitle>
       }
