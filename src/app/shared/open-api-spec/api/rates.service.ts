@@ -104,7 +104,6 @@ export class RatesService {
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
             ];
@@ -165,7 +164,6 @@ export class RatesService {
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
             ];

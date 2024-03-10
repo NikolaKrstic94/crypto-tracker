@@ -7,9 +7,6 @@ import { combineLatest, map } from 'rxjs';
   providedIn: 'root',
 })
 export class AssetsManagementService {
-  // TODO add API key for more real-life situation
-  // connectionService = inject(AssetsService)
-
   assetDisplayMode = signal(AssetDisplayMode.Added);
 
   assetsService = inject(AssetsService);

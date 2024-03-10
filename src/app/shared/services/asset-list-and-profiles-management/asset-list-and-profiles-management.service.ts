@@ -62,7 +62,6 @@ export class AssetListAndProfilesManagementService {
   }
 
   removeProfileFromList(profileId: string) {
-    // TODO this is not complete, it needs a check whether it's a default profile and to forbid deletion of that one and pop a message! (toaster notification for example, why not!)
     let allProfiles = this.getAllProfiles();
 
     let updatedProfiles = allProfiles.filter((profile) => {

@@ -43,8 +43,8 @@ export class AssetGridContainerComponent {
           { breakpoint: Breakpoints.XSmall, cols: 1, pageSize: 3, pageSizeOptions: this.pageSizeOptionsMobile },
           { breakpoint: Breakpoints.Small, cols: 2, pageSize: 6, pageSizeOptions: this.pageSizeOptionsMobile },
           { breakpoint: Breakpoints.Medium, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
-          { breakpoint: Breakpoints.Large, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
-          { breakpoint: Breakpoints.XLarge, cols: 4, pageSize: 12, pageSizeOptions: this.pageSizeOptionsDesktop },
+          { breakpoint: Breakpoints.Large, cols: 4, pageSize: 16, pageSizeOptions: this.pageSizeOptionsDesktop },
+          { breakpoint: Breakpoints.XLarge, cols: 4, pageSize: 16, pageSizeOptions: this.pageSizeOptionsDesktop },
         ];
 
         const activeBreakpoint = breakpoints.find((bp) => result.breakpoints[bp.breakpoint]);

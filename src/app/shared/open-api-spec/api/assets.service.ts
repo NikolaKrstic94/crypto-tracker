@@ -40,7 +40,9 @@ import { AssetsServiceOptions } from '../../types/assets-service-options';
 export class AssetsService {
 
     protected basePath = 'https://api.coincap.io';
-    public defaultHeaders = new HttpHeaders();
+    public defaultHeaders = new HttpHeaders({
+      'Authorization': 'Bearer 2afb0fbe-2bbe-4e5b-8c28-53a836f25e43'
+    });
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
@@ -113,7 +115,6 @@ export class AssetsService {
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
             ];
@@ -192,7 +193,6 @@ export class AssetsService {
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
             ];
@@ -260,7 +260,6 @@ export class AssetsService {
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
             ];
@@ -322,7 +321,6 @@ export class AssetsService {
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
             const httpHeaderAccepts: string[] = [
                 'application/json'
             ];

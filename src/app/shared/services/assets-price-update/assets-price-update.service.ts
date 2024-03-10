@@ -18,11 +18,11 @@ export class AssetsPriceUpdateService {
   }
 
   private listenForPriceUpdates(): void {
-    // this.pricesWebsocketSubject.pipe(takeUntil(this.destroy$)).subscribe({
-    //   next: (msg: any) => this.pricesSubject.next(msg),
-    //   error: (err: any) => console.error('WebSocket error:', err),
-    //   complete: () => console.log('WebSocket connection closed'),
-    // });
+    this.pricesWebsocketSubject.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (msg: any) => this.pricesSubject.next(msg),
+      error: (err: any) => console.error('WebSocket error:', err),
+      complete: () => console.log('WebSocket connection closed'),
+    });
   }
 
   ngOnDestroy() {
