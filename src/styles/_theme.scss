@@ -26,5 +26,8 @@ $custom-theme: mat.define-light-theme(
   --gray-blue-color-lightest: #{mat.get-color-from-palette($custom-blue-gray, 50)};
   --gray-blue-color-lighter: #{mat.get-color-from-palette($custom-blue-gray, 100)};
   --gray-blue-color-light: #{mat.get-color-from-palette($custom-blue-gray, 200)};
+  --gray-blue-color-dark: #{mat.get-color-from-palette($custom-blue-gray, 300)};
+  --gray-blue-color-darker: #{mat.get-color-from-palette($custom-blue-gray, 400)};
+  --gray-blue-color-darkest: #{mat.get-color-from-palette($custom-blue-gray, 500)};
   --hover-text-color: rgba(0, 0, 0, 0.87);
 }

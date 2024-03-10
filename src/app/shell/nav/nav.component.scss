@@ -1,3 +1,14 @@
 .custom-spacer {
   justify-content: space-between;
 }
+mat-menu {
+  height: 300px !important;
+}
+
+.custom-paginator-wrapper {
+  display: flex;
+}
+
+mat-form-field {
+  width: 100%;
+}

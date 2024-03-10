@@ -16,7 +16,7 @@ export class AssetListAndProfilesManagementService {
   private createDefaultProfile(): AssetUserProfile {
     return {
       profileId: crypto.randomUUID(),
-      name: 'Default',
+      name: 'Default Profile',
       assetIds: ['bitcoin'],
       isCurrent: true,
       isDefault: true,
@@ -59,10 +59,17 @@ export class AssetListAndProfilesManagementService {
     // TODO this is not complete, it needs a check whether it's a default profile and to forbid deletion of that one and pop a message! (toaster notification for example, why not!)
     let allProfiles = this.getAllProfiles();
 
-    let profilesWithRemovedProfile = allProfiles.filter((profile) => profile.profileId !== profileId);
-    this.updateLocalStorageAndSubjectData(profilesWithRemovedProfile);
+    let updatedProfiles = allProfiles.filter((profile) => {
+      const isDefaultProfile = profile.isDefault;
+      if (isDefaultProfile) {
+        return true;
+      } else {
+        return profile.profileId !== profileId;
+      }
+    });
+    this.updateLocalStorageAndSubjectData(updatedProfiles);
 
-    this.setProfileAsActive(profilesWithRemovedProfile[0].profileId);
+    this.setProfileAsActive(updatedProfiles[0].profileId);
   }
 
   setProfileAsActive(activeProfileId: string) {
@@ -158,7 +165,7 @@ export class AssetListAndProfilesManagementService {
   initializeLocalStorage() {
     let profilesArray: AssetUserProfile[] = JSON.parse(localStorage.getItem('profiles')!);
 
-    if (!profilesArray) {
+    if (!profilesArray || profilesArray.length === 0) {
       let starterData: AssetUserProfile[] = [this.defaultProfile];
       this.updateLocalStorageAndSubjectData(starterData);
     }

@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -19,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { Observable, tap } from 'rxjs';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-nav',
@@ -32,6 +35,8 @@ import { Observable, tap } from 'rxjs';
     MatFormFieldModule,
     FormsModule,
     MatInputModule,
+    MatPaginatorModule,
+    MatPaginator,
   ],
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'], // Corrected styleUrl to styleUrls for array usage
@@ -40,14 +45,23 @@ import { Observable, tap } from 'rxjs';
 export class NavComponent implements OnInit {
   ratesManagementService = inject(RatesManagementService);
   cd = inject(ChangeDetectorRef);
+  currentCurrency = 'USD'
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('searchInput') searchInput!: ElementRef<MatInput>;
 
   dataSource = new MatTableDataSource<InlineResponse2004DataInner>([]);
   searchText: string = '';
   currencies$!: Observable<InlineResponse2004>;
+  dataSourceCurrencies$!: Observable<InlineResponse2004DataInner[]>;
 
   ngOnInit() {
+    this.cd.detectChanges();
+    this.dataSource.paginator = this.paginator;
+    this.dataSourceCurrencies$ = this.dataSource.connect();
+    if(this.paginator) {
+      this.paginator.pageSize = 5
+    }
     this.currencies$ = this.ratesManagementService.getAllRates().pipe(
       tap((response) => {
         if (response.data) {
@@ -65,6 +79,7 @@ export class NavComponent implements OnInit {
   setCurrency(currency: InlineResponse2004DataInner) {
     if (currency) {
       this.ratesManagementService.setCurrency(currency);
+      this.currentCurrency = currency.symbol!
     }
   }
 }

@@ -1,4 +1,5 @@
 .add-profile-button {
+  margin-top: 1rem;
   margin-left: 1rem;
 }
 
@@ -9,7 +10,6 @@
 mat-list-option[aria-selected="true"] {
   background: var(--gray-blue-color-lighter);
 }
-
 
 .profile-option {
   display: flex;
@@ -26,4 +26,8 @@ h3{
 
 mat-icon {
   margin-right: 0 !important;
+}
+
+mat-list-option {
+  border-top: 2px solid var(--gray-blue-color-light);
 }

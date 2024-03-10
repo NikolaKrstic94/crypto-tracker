@@ -11,9 +11,18 @@
       <mat-list-option [value]="profile.profileId" [selected]="profile.isCurrent"
         ><div class="profile-option">
           {{ profile.name }}
-          <button class="remove-profile-button" matTooltip="Remove Profile" mat-raised-button color="warn" (click)="removeProfile(profile.profileId)"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete_forever"></mat-icon></button>
-        </div></mat-list-option
-      >
+          @if (!profile.isDefault) {
+            <button
+              class="remove-profile-button"
+              matTooltip="Remove Profile"
+              mat-raised-button
+              color="warn"
+              (click)="removeProfile(profile.profileId)"
+            >
+              <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete_forever"></mat-icon>
+            </button>
+          }</div
+      ></mat-list-option>
     }
   }
 </mat-selection-list>
