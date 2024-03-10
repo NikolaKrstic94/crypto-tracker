@@ -2,7 +2,7 @@
   @if (!assets?.length) {
     <h1 class="no-assets-available">There are no assets available</h1>
   }
-  <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="20px">
+  <mat-grid-list [cols]="cols" rowHeight="140px" gutterSize="15px">
     @for (asset of assets; track asset.id) {
       <mat-grid-tile>
         <app-asset-card [assetData]="asset"></app-asset-card>
