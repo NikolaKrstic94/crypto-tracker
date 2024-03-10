@@ -17,10 +17,11 @@ import { InlineResponse200DataInner } from '../../../../../shared/open-api-spec/
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { AssetListAndProfilesManagementService } from '../../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
 
 @Component({
   selector: 'app-asset-grid-representation',
@@ -35,7 +36,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginator,
     FormsModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './asset-grid-representation.component.html',
   styleUrl: './asset-grid-representation.component.scss',
@@ -47,6 +48,9 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
   @Input() cols: number | null = 4;
 
   cd = inject(ChangeDetectorRef);
+  assetListAndProfilesManagementService = inject(AssetListAndProfilesManagementService);
+  pageSizeAndPageOptions$ = this.assetListAndProfilesManagementService.pageSizeAndPageOptions$;
+
   dataSource = new MatTableDataSource<InlineResponse200DataInner>(this.assets);
   dataSourceAssets$!: Observable<InlineResponse200DataInner[]>;
   searchText: string = '';
@@ -56,19 +60,26 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
     this.dataSource.paginator = this.paginator;
     this.dataSourceAssets$ = this.dataSource.connect();
 
-    if (this.paginator) {
-      this.paginator.pageSize = 16;
-    }
+    this.pageSizeAndPageOptions$.pipe(
+      tap((value) => {
+        this.paginator.pageSize = value.pageSize;
+        this.paginator.pageSizeOptions = value.pageOptions;
+      }),
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['assets']) {
-      this.dataSource.data = this.assets as InlineResponse200DataInner[];
+      if (this.assets) {
+        this.dataSource.data = this.assets;
+      }
     }
-    this.applyFilter();
   }
 
   applyFilter() {
+    if (this.assets) {
+      this.dataSource.data = this.assets;
+    }
     const filterValue = this.searchText.trim().toLowerCase();
     this.dataSource.filter = filterValue;
     this.dataSource.data = this.dataSource.filteredData;

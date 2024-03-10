@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
 import { AssetsManagementService } from '../../../../shared/services/assets-management/assets-management.service';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap, timer } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
@@ -29,27 +29,40 @@ export class AssetGridContainerComponent {
   livePrices$ = this.assetsPriceUpdateService.prices$;
   currentProfile$ = this.assetListandProfilesManagementService.getCurrentProfile$();
   selectedCurrency$ = this.ratesManagementService.selectedCurrency$;
+  pageSizeAndPageOptions$ = this.assetListandProfilesManagementService.pageSizeAndPageOptions$;
+
+  timeBetweenGetAssetsRequests = 5000;
+  pageSizeOptionsMobile = [3, 6, 9, 12];
+  pageSizeOptionsDesktop = [4, 8, 12, 16];
 
   cols$ = this.breakpointObserver
     .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large])
     .pipe(
       map((result) => {
         const breakpoints = [
-          { breakpoint: Breakpoints.XSmall, cols: 1 },
-          { breakpoint: Breakpoints.Small, cols: 2 },
-          { breakpoint: Breakpoints.Medium, cols: 3 },
-          { breakpoint: Breakpoints.Large, cols: 4 },
+          { breakpoint: Breakpoints.XSmall, cols: 1, pageSize: 3, pageSizeOptions: this.pageSizeOptionsMobile },
+          { breakpoint: Breakpoints.Small, cols: 2, pageSize: 6, pageSizeOptions: this.pageSizeOptionsMobile },
+          { breakpoint: Breakpoints.Medium, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
+          { breakpoint: Breakpoints.Large, cols: 4, pageSize: 12, pageSizeOptions: this.pageSizeOptionsDesktop },
         ];
 
         const activeBreakpoint = breakpoints.find((bp) => result.breakpoints[bp.breakpoint]);
+        const pageSizeArray = activeBreakpoint?.pageSizeOptions;
+
+        this.assetListandProfilesManagementService.setPageSize(activeBreakpoint?.pageSize, pageSizeArray);
+
         return activeBreakpoint ? activeBreakpoint.cols : 4;
       }),
     );
   /**
    * Gets the appropriate assets based on whether they are needed in a dashboard or in a dialog
    */
-  appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = this.currentProfile$.pipe(
-    switchMap((currentProfile) => {
+  appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = combineLatest([
+    timer(0, this.timeBetweenGetAssetsRequests),
+    this.currentProfile$,
+    this.pageSizeAndPageOptions$,
+  ]).pipe(
+    switchMap(([_, currentProfile]) => {
       if (!this.dialogData && currentProfile.assetIds.length) {
         return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
       } else if (this.dialogData) {
@@ -70,12 +83,12 @@ export class AssetGridContainerComponent {
         return undefined;
       }
       return assets.map((asset) => {
-        const priceUsd = livePrices[asset.id as string] || asset.priceUsd || 0 ;
+        const priceUsd = livePrices[asset.id as string] || asset.priceUsd || 0;
         const exchangeRate = selectedCurrency.rateUsd;
 
         const price = parseFloat(priceUsd) / parseFloat(exchangeRate || '1');
 
-        return { ...asset, priceUsd: price.toFixed(2) }
+        return { ...asset, priceUsd: price.toFixed(2) };
       });
     }),
   );

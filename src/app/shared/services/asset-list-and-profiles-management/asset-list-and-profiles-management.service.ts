@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { AssetUserProfile } from '../../types/asset-user-profile';
-
+export interface pageSizeAndPageOptions {
+  pageSize: number;
+  pageOptions: number[]
+}
 @Injectable({
   providedIn: 'root',
 })
+
 export class AssetListAndProfilesManagementService {
   private defaultProfile: AssetUserProfile = this.createDefaultProfile();
 
   allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>(this.getAllProfiles());
   allProfiles$ = this.allProfilesSubject.asObservable();
+  private pageSizeSubject = new BehaviorSubject<pageSizeAndPageOptions>({pageSize:16, pageOptions:[4,8,12,16]});
+  pageSizeAndPageOptions$ = this.pageSizeSubject.asObservable();
 
   constructor() {}
 
@@ -169,5 +175,13 @@ export class AssetListAndProfilesManagementService {
       let starterData: AssetUserProfile[] = [this.defaultProfile];
       this.updateLocalStorageAndSubjectData(starterData);
     }
+  }
+
+  setPageSize(pageSize: number | undefined, pageSizeOptions: number[] | undefined) {
+    if (!pageSize || !pageSizeOptions) {
+      console.error('pageSize is undefined');
+      return;
+    }
+    this.pageSizeSubject.next({pageSize, pageOptions: pageSizeOptions});
   }
 }

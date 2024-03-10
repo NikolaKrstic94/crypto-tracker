@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { webSocket, WebSocketSubject} from 'rxjs/webSocket'
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AssetsPriceUpdateService {
+  private readonly destroy$ = new Subject<void>();
   private pricesUrl: string = 'wss://ws.coincap.io/prices?assets=ALL';
   private pricesWebsocketSubject: WebSocketSubject<any>;
   private pricesSubject: BehaviorSubject<any> = new BehaviorSubject<any>({});
@@ -17,11 +18,15 @@ export class AssetsPriceUpdateService {
   }
 
   private listenForPriceUpdates(): void {
-    this.pricesWebsocketSubject.subscribe({
-      next: (msg: any) => this.pricesSubject.next(msg),
-      error: (err: any) => console.error('WebSocket error:', err),
-      complete: () => console.log('WebSocket connection closed'),
-    });
+    // this.pricesWebsocketSubject.pipe(takeUntil(this.destroy$)).subscribe({
+    //   next: (msg: any) => this.pricesSubject.next(msg),
+    //   error: (err: any) => console.error('WebSocket error:', err),
+    //   complete: () => console.log('WebSocket connection closed'),
+    // });
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

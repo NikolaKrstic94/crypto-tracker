@@ -20,5 +20,11 @@
       <input matInput [(ngModel)]="searchText" (keyup)="applyFilter()" />
     </mat-form-field>
   }
-  <mat-paginator [length]="assets?.length" [pageSizeOptions]="[4, 8, 12, 16]"></mat-paginator>
+  @if (pageSizeAndPageOptions$ | async; as pageSizeAndPageOptions) {
+    <mat-paginator
+      [length]="assets?.length"
+      [pageSize]="pageSizeAndPageOptions.pageSize"
+      [pageSizeOptions]="pageSizeAndPageOptions.pageOptions"
+    ></mat-paginator>
+  }
 </div>
