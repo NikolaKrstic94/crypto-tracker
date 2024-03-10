@@ -1,8 +1,7 @@
 .add-profile-button {
-  margin-top: 1rem;
-  margin-left: 1rem;
+  margin-top: unset;
+  margin-left: unset;
 }
-
 .remove-profile-button {
   min-width: 0.2rem !important;
 }
@@ -18,7 +17,7 @@ mat-list-option[aria-selected="true"] {
   align-items: center;
 }
 
-h3{
+h3 {
   font-size: 1.3rem;
   text-align: center;
   margin-bottom: 0;
@@ -30,4 +29,11 @@ mat-icon {
 
 mat-list-option {
   border-top: 2px solid var(--gray-blue-color-light);
+}
+
+@media (min-width: 992px) {
+  .add-profile-button {
+    margin-top: 1rem;
+    margin-left: 1rem;
+  }
 }
