@@ -177,7 +177,7 @@ export class AssetListAndProfilesManagementService {
     }
   }
 
-  setPageSize(pageSize: number | undefined, pageSizeOptions: number[] | undefined) {
+  setPageSize(pageSize: number | undefined = 16, pageSizeOptions: number[] | undefined) {
     if (!pageSize || !pageSizeOptions) {
       console.error('pageSize is undefined');
       return;

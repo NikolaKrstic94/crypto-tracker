@@ -36,19 +36,19 @@ export class AssetGridContainerComponent {
   pageSizeOptionsDesktop = [4, 8, 12, 16];
 
   cols$ = this.breakpointObserver
-    .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large])
+    .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
     .pipe(
       map((result) => {
         const breakpoints = [
           { breakpoint: Breakpoints.XSmall, cols: 1, pageSize: 3, pageSizeOptions: this.pageSizeOptionsMobile },
           { breakpoint: Breakpoints.Small, cols: 2, pageSize: 6, pageSizeOptions: this.pageSizeOptionsMobile },
           { breakpoint: Breakpoints.Medium, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
-          { breakpoint: Breakpoints.Large, cols: 4, pageSize: 12, pageSizeOptions: this.pageSizeOptionsDesktop },
+          { breakpoint: Breakpoints.Large, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
+          { breakpoint: Breakpoints.XLarge, cols: 4, pageSize: 12, pageSizeOptions: this.pageSizeOptionsDesktop },
         ];
 
         const activeBreakpoint = breakpoints.find((bp) => result.breakpoints[bp.breakpoint]);
         const pageSizeArray = activeBreakpoint?.pageSizeOptions;
-
         this.assetListandProfilesManagementService.setPageSize(activeBreakpoint?.pageSize, pageSizeArray);
 
         return activeBreakpoint ? activeBreakpoint.cols : 4;
