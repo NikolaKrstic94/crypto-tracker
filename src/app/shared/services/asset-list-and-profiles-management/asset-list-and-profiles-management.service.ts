@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { AssetUserProfile } from '../../types/asset-user-profile';
-export interface pageSizeAndPageOptions {
-  pageSize: number;
-  pageOptions: number[]
-}
+import { PageSizeAndPageOptions } from '../../types/page-size-and-page-options';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +11,7 @@ export class AssetListAndProfilesManagementService {
 
   allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>(this.getAllProfiles());
   allProfiles$ = this.allProfilesSubject.asObservable();
-  private pageSizeSubject = new BehaviorSubject<pageSizeAndPageOptions>({pageSize:16, pageOptions:[4,8,12,16]});
+  private pageSizeSubject = new BehaviorSubject<PageSizeAndPageOptions>({pageSize:16, pageOptions:[4,8,12,16]});
   pageSizeAndPageOptions$ = this.pageSizeSubject.asObservable();
 
   constructor() {}

@@ -8,10 +8,6 @@ import { AddProfileDialogComponent } from './add-profile-dialog/add-profile-dial
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 
-export interface AddProfileDialogData {
-  profileName: string;
-}
-
 @Component({
   selector: 'app-profile-list',
   standalone: true,
@@ -29,7 +25,7 @@ export class ProfileListComponent implements OnInit {
   ngOnInit() {}
 
   addProfile() {
-    const dialogRef = this.dialog.open(AddProfileDialogComponent, {});
+    this.dialog.open(AddProfileDialogComponent, {});
   }
 
   setProfileAsActive($event: MatSelectionListChange) {

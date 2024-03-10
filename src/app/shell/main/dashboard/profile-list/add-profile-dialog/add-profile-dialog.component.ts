@@ -7,11 +7,11 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AddProfileDialogData } from '../profile-list.component';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { AssetListAndProfilesManagementService } from '../../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
+import { AddProfileDialogData } from '../../../../../shared/types/add-profile-dialog-data';
 
 @Component({
   selector: 'app-add-profile-dialog',
