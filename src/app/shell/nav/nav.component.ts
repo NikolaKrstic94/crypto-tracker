@@ -18,7 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatInput, MatInputModule } from '@angular/material/input';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
@@ -59,6 +59,17 @@ export class NavComponent implements OnInit {
     this.dataSourceCurrencies$ = this.dataSource.connect();
 
     this.currencies$ = this.ratesManagementService.getAllRates().pipe(
+      map((response) => {
+        if (response.data) {
+          response.data.sort((a, b) => {
+            if (a.symbol && b.symbol) {
+              return a.symbol.localeCompare(b.symbol);
+            }
+            return 0;
+          });
+        }
+        return response;
+      }),
       tap((response) => {
         if (response.data) {
           this.dataSource.data = response.data;
