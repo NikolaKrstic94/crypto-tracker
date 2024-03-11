@@ -89,9 +89,11 @@ export class AssetListAndProfilesManagementService {
     this.updateLocalStorageAndSubjectData(allProfiles);
   }
 
-  private initializeNewProfileObj(profileName: string): AssetUserProfile {
+  private initializeNewProfileObj(profileName: string = 'No-name Profile'): AssetUserProfile {
+    let defaultName = profileName;
+
     return {
-      name: profileName,
+      name: defaultName,
       profileId: crypto.randomUUID(),
       assetIds: this.defaultProfile.assetIds,
       isCurrent: true,
