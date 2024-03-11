@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
+  "homepage": "https://nikolakrstic94.github.io/crypto-tracker",
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.1.0",
