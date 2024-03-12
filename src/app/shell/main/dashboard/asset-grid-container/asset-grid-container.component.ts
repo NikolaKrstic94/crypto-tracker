@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, Component, Inject, Optional, inject } from '@angular/core';
 import { AssetsManagementService } from '../../../../shared/services/assets-management/assets-management.service';
-import { Observable, combineLatest, map, of, switchMap, timer } from 'rxjs';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
 import { AssetGridRepresentationComponent } from './asset-grid-representation/asset-grid-representation.component';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
@@ -31,7 +31,6 @@ export class AssetGridContainerComponent {
   selectedCurrency$ = this.ratesManagementService.selectedCurrency$;
   pageSizeAndPageOptions$ = this.assetListandProfilesManagementService.pageSizeAndPageOptions$;
 
-  timeBetweenGetAssetsRequests = 5000;
   pageSizeOptionsMobile = [3, 6, 9, 12];
   pageSizeOptionsDesktop = [4, 8, 12, 16];
 
@@ -58,11 +57,9 @@ export class AssetGridContainerComponent {
    * Gets the appropriate assets based on whether they are needed in a dashboard or in a dialog
    */
   appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = combineLatest([
-    timer(0, this.timeBetweenGetAssetsRequests),
     this.currentProfile$,
-    this.pageSizeAndPageOptions$,
   ]).pipe(
-    switchMap(([_, currentProfile]) => {
+    switchMap(([currentProfile]) => {
       if (!this.dialogData && currentProfile.assetIds.length) {
         return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
       } else if (this.dialogData) {

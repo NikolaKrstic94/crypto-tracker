@@ -17,18 +17,18 @@
           />
         </mat-form-field>
       </div>
-      @if (currencies$ | async) {
+      @if (currencies$ | async; as currencies) {
         @for (currency of dataSourceCurrencies$ | async; track currency.id) {
           <button (click)="setCurrency(currency)" mat-menu-item>{{ currency.symbol }}</button>
         }
-      }
 
-      <div class="custom-paginator-wrapper" (click)="$event.stopPropagation()">
-        <mat-paginator
-          [length]="(currencies$ | async)?.data?.length"
+        <div class="custom-paginator-wrapper" (click)="$event.stopPropagation()">
+          <mat-paginator
+          [length]="currencies?.data?.length"
           [pageSizeOptions]="[4, 8, 12, 16]"
-        ></mat-paginator>
-      </div>
+          ></mat-paginator>
+        </div>
+      }
     </mat-menu>
   </div>
 </mat-toolbar>

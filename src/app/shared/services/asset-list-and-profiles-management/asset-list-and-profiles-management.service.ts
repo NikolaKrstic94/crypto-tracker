@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map, share, shareReplay } from 'rxjs';
 import { AssetUserProfile } from '../../types/asset-user-profile';
 import { PageSizeAndPageOptions } from '../../types/page-size-and-page-options';
 @Injectable({
