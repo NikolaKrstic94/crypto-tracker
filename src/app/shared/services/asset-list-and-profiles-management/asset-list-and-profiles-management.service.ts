@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map, share, shareReplay } from 'rxjs';
 import { AssetUserProfile } from '../../types/asset-user-profile';
 import { PageSizeAndPageOptions } from '../../types/page-size-and-page-options';
+import { MatPaginator } from '@angular/material/paginator';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,8 +12,10 @@ export class AssetListAndProfilesManagementService {
 
   allProfilesSubject = new BehaviorSubject<AssetUserProfile[]>(this.getAllProfiles());
   allProfiles$ = this.allProfilesSubject.asObservable();
-  private pageSizeSubject = new BehaviorSubject<PageSizeAndPageOptions>({pageSize:16, pageOptions:[4,8,12,16]});
-  pageSizeAndPageOptions$ = this.pageSizeSubject.asObservable();
+  paginatorOptionsDataSubject = new BehaviorSubject<PageSizeAndPageOptions>({pageSize:16, pageOptions:[4,8,12,16], paginator: undefined});
+  assetListPaginatorSubject = new BehaviorSubject<MatPaginator | undefined>(undefined);
+  assetListPaginator$ = this.assetListPaginatorSubject.asObservable();
+  paginatorOptionsData$ = this.paginatorOptionsDataSubject.asObservable();
 
   constructor() {}
 
@@ -175,11 +178,14 @@ export class AssetListAndProfilesManagementService {
     }
   }
 
-  setPageSize(pageSize: number | undefined = 16, pageSizeOptions: number[] | undefined) {
+  setPageSize(pageSize: number | undefined = 16, pageSizeOptions: number[] | undefined, paginator: MatPaginator | undefined) {
+    if(paginator) {
+      paginator._changePageSize(pageSize)
+    }
     if (!pageSize || !pageSizeOptions) {
       console.error('pageSize is undefined');
       return;
     }
-    this.pageSizeSubject.next({pageSize, pageOptions: pageSizeOptions});
+    this.paginatorOptionsDataSubject.next({pageSize, pageOptions: pageSizeOptions, paginator: paginator});
   }
 }

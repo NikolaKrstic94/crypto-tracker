@@ -9,6 +9,7 @@ import { AssetListAndProfilesManagementService } from '../../../../shared/servic
 import { InlineResponse200DataInner } from '../../../../shared/open-api-spec/model/inlineResponse200DataInner';
 import { AssetsPriceUpdateService } from '../../../../shared/services/assets-price-update/assets-price-update.service';
 import { RatesManagementService } from '../../../../shared/services/rates-management/rates-management.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-asset-grid-container',
@@ -29,36 +30,46 @@ export class AssetGridContainerComponent {
   livePrices$ = this.assetsPriceUpdateService.prices$;
   currentProfile$ = this.assetListandProfilesManagementService.getCurrentProfile$();
   selectedCurrency$ = this.ratesManagementService.selectedCurrency$;
-  pageSizeAndPageOptions$ = this.assetListandProfilesManagementService.pageSizeAndPageOptions$;
+  pageSizeAndPageOptions$ = this.assetListandProfilesManagementService.paginatorOptionsData$;
+  assetListPaginator$ = this.assetListandProfilesManagementService.assetListPaginator$;
 
   pageSizeOptionsMobile = [3, 6, 9, 12];
   pageSizeOptionsDesktop = [4, 8, 12, 16];
 
-  cols$ = this.breakpointObserver
-    .observe([Breakpoints.XSmall, Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
-    .pipe(
-      map((result) => {
-        const breakpoints = [
-          { breakpoint: Breakpoints.XSmall, cols: 1, pageSize: 3, pageSizeOptions: this.pageSizeOptionsMobile },
-          { breakpoint: Breakpoints.Small, cols: 2, pageSize: 6, pageSizeOptions: this.pageSizeOptionsMobile },
-          { breakpoint: Breakpoints.Medium, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
-          { breakpoint: Breakpoints.Large, cols: 4, pageSize: 16, pageSizeOptions: this.pageSizeOptionsDesktop },
-          { breakpoint: Breakpoints.XLarge, cols: 4, pageSize: 16, pageSizeOptions: this.pageSizeOptionsDesktop },
-        ];
+  cols$ = combineLatest([
+    this.breakpointObserver.observe([
+      Breakpoints.XSmall,
+      Breakpoints.Small,
+      Breakpoints.Medium,
+      Breakpoints.Large,
+      Breakpoints.XLarge,
+    ]),
+    this.assetListPaginator$,
+  ]).pipe(
+    map(([breakpointResult, assetListPaginator]) => {
+      const breakpoints = [
+        { breakpoint: Breakpoints.XSmall, cols: 1, pageSize: 3, pageSizeOptions: this.pageSizeOptionsMobile },
+        { breakpoint: Breakpoints.Small, cols: 2, pageSize: 6, pageSizeOptions: this.pageSizeOptionsMobile },
+        { breakpoint: Breakpoints.Medium, cols: 3, pageSize: 9, pageSizeOptions: this.pageSizeOptionsMobile },
+        { breakpoint: Breakpoints.Large, cols: 4, pageSize: 16, pageSizeOptions: this.pageSizeOptionsDesktop },
+        { breakpoint: Breakpoints.XLarge, cols: 4, pageSize: 16, pageSizeOptions: this.pageSizeOptionsDesktop },
+      ];
 
-        const activeBreakpoint = breakpoints.find((bp) => result.breakpoints[bp.breakpoint]);
-        const pageSizeArray = activeBreakpoint?.pageSizeOptions;
-        this.assetListandProfilesManagementService.setPageSize(activeBreakpoint?.pageSize, pageSizeArray);
+      const activeBreakpoint = breakpoints.find((bp) => breakpointResult.breakpoints[bp.breakpoint]);
+      const pageSizeArray = activeBreakpoint?.pageSizeOptions;
+      this.assetListandProfilesManagementService.setPageSize(
+        activeBreakpoint?.pageSize,
+        pageSizeArray,
+        assetListPaginator,
+      );
 
-        return activeBreakpoint ? activeBreakpoint.cols : 4;
-      }),
-    );
+      return activeBreakpoint ? activeBreakpoint.cols : 4;
+    }),
+  );
   /**
    * Gets the appropriate assets based on whether they are needed in a dashboard or in a dialog
    */
-  appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = combineLatest([
-    this.currentProfile$,
-  ]).pipe(
+  appropriateAssets: Observable<InlineResponse200DataInner[] | undefined> = combineLatest([this.currentProfile$]).pipe(
     switchMap(([currentProfile]) => {
       if (!this.dialogData && currentProfile.assetIds.length) {
         return this.assetsManagerService.getAssetsByIds(currentProfile.assetIds);
@@ -89,4 +100,8 @@ export class AssetGridContainerComponent {
       });
     }),
   );
+
+  // emitPaginatorRef(paginator: MatPaginator) {
+  //   this.paginator = paginator;
+  // }
 }

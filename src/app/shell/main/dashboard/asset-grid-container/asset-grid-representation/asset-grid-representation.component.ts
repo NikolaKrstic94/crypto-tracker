@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AssetListAndProfilesManagementService } from '../../../../../shared/services/asset-list-and-profiles-management/asset-list-and-profiles-management.service';
+import { AssetsPriceUpdateService } from '../../../../../shared/services/assets-price-update/assets-price-update.service';
 
 @Component({
   selector: 'app-asset-grid-representation',
@@ -49,7 +50,8 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
 
   cd = inject(ChangeDetectorRef);
   assetListAndProfilesManagementService = inject(AssetListAndProfilesManagementService);
-  pageSizeAndPageOptions$ = this.assetListAndProfilesManagementService.pageSizeAndPageOptions$;
+  assetsPriceUpdateService = inject(AssetsPriceUpdateService);
+  pageSizeAndPageOptions$ = this.assetListAndProfilesManagementService.paginatorOptionsData$;
 
   dataSource = new MatTableDataSource<InlineResponse200DataInner>(this.assets);
   dataSourceAssets$!: Observable<InlineResponse200DataInner[]>;
@@ -58,6 +60,7 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.cd.detectChanges();
     this.dataSource.paginator = this.paginator;
+    this.assetListAndProfilesManagementService.assetListPaginatorSubject.next(this.paginator)
     this.dataSourceAssets$ = this.dataSource.connect();
 
     this.pageSizeAndPageOptions$.pipe(
@@ -66,6 +69,9 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
         this.paginator.pageSizeOptions = value.pageOptions;
       }),
     );
+
+    this.emitCurrentPageAssetsIds();
+    this.paginator.page.subscribe(() => this.emitCurrentPageAssetsIds());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -74,6 +80,14 @@ export class AssetGridRepresentationComponent implements OnInit, OnChanges {
         this.dataSource.data = this.assets;
       }
     }
+  }
+
+  emitCurrentPageAssetsIds() {
+    const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+    const endIndex = startIndex + this.paginator.pageSize;
+    const currentPageAssetsIds = this.dataSource.data.slice(startIndex, endIndex).map((asset) => asset.id || '');
+
+    this.assetsPriceUpdateService.emitCurrentPageAssetsIds(currentPageAssetsIds);
   }
 
   applyFilter() {
